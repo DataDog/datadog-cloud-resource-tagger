@@ -1,0 +1,1 @@
+{"Modules":[{"Key":"complete_sg","Source":"terraform-aws-modules/security-group/aws","Version":"5.1.0","Dir":".terraform/modules/complete_sg"},{"Key":"sg","Source":"terraform-aws-modules/vpc/aws","Version":"5.5.1","Dir":".terraform/modules/sg"},{"Key":"","Source":"","Dir":"../../../tests/terraform/resources/local_module/sub_local_module"}]}
