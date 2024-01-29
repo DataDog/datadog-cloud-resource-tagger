@@ -1,0 +1,33 @@
+name: tests-and-linter
+
+on: pull_request
+
+permissions:
+  contents: read
+
+jobs:
+  unit-tests:
+    strategy:
+      matrix:
+        go: [ 1.19 ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Go
+        uses: actions/setup-go@0c52d547c9bc32b1aa3301fd7a9cb496313a4491  # v4
+        with:
+          go-version: ${{ matrix.go }}
+      - name: Test
+        run: go build -v && go test ./src/...
+  linter:
+    name: golangci-lint
+    runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      contents: read
+      pull-requests: write
+    steps:
+      - name: golangci-lint
+        uses: reviewdog/action-golangci-lint@94d61e3205b61acf4ddabfeb13c5f8a13eb4167b  # v2
+        with:
+          tool_name: golangci-lint
+          fail_on_error: true
