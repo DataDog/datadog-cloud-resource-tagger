@@ -1,3 +1,7 @@
+// Unless explicitly stated otherwise all files in this repository are licensed
+// under the Apache License Version 2.0.
+// This product includes software developed at Datadog (https://www.datadoghq.com/).
+// Copyright 2024-present Datadog, Inc.
 package utils
 
 import (
@@ -6,9 +10,7 @@ import (
 	"github.com/Datadog/cloud-resource-tagger/src/common/tagging"
 	"github.com/Datadog/cloud-resource-tagger/src/common/tagging/code2cloud"
 
-	//"github.com/Datadog/cloud-resource-tagger/src/common/tagging/external"
 	"github.com/Datadog/cloud-resource-tagger/src/common/tagging/gittag"
-	//"github.com/Datadog/cloud-resource-tagger/src/common/tagging/simple"
 )
 
 type TagGroupName string
