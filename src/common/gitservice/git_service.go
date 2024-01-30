@@ -174,7 +174,9 @@ func (g *GitService) GetFileBlame(filePath string) (*git.BlameResult, error) {
 		return nil, fmt.Errorf("failed to get blame for latest commit of file %s because of error %s", filePath, err)
 	}
 	previousBlame, err := git.Blame(previousCommit, relativeFilePath)
-
+	if err != nil {
+		fmt.Printf("failed to get previous blame for previous commit of file %s because of error %s", filePath, err)
+	}
 	if previousBlame != nil {
 		g.PreviousBlameByFile.Store(filePath, previousBlame)
 	}

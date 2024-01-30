@@ -142,6 +142,7 @@ func (g *GitBlame) GetFirstCommit() (firstCommit *git.Line) {
 		// Commit was not made by CI, i.e. github actions (for now)
 		!strings.Contains(v.Author, "[bot]") && !strings.Contains(v.Author, "github-actions") {
 		minimum = v.Date
+		fmt.Printf("new minimum date: %v\n", minimum)
 		firstCommit = v
 	}
 	return
