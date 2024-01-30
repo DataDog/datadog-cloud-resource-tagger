@@ -10,7 +10,6 @@ builds:
       - darwin
     ldflags:
       - -X main.BuildVersion={{.Version}}
-
     dir: .
     binary: datadog-cloud-resource-tagger
 brews:
@@ -49,5 +48,4 @@ changelog:
   sort: asc
   filters:
     exclude:
-      - '^docs:'
       - '^test:'

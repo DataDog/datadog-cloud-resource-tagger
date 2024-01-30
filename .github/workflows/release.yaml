@@ -1,10 +1,9 @@
 name: release
 
 on:
-  # push:
-  #   tags:
-  #     - "*"
-  pull_request
+  push:
+    tags:
+      - "*"
 
 defaults:
   run:
@@ -32,7 +31,7 @@ jobs:
         with:
           distribution: goreleaser
           version: v1.22.1
-          args: release --clean --config ../.goreleaser.yaml
+          args: release --clean --config .goreleaser.yaml
           workdir: .
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
