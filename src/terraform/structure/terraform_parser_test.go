@@ -15,6 +15,7 @@ import (
 	"github.com/Datadog/cloud-resource-tagger/src/common/tagging/gittag"
 	"github.com/Datadog/cloud-resource-tagger/src/common/tagging/tags"
 	"github.com/Datadog/cloud-resource-tagger/src/common/utils"
+	"github.com/Datadog/cloud-resource-tagger/tests/utils/testutils"
 	"github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing"
 	"github.com/hashicorp/hcl/v2/hclsyntax"
@@ -458,36 +459,6 @@ func TestTerraformParser_Module(t *testing.T) {
 		assert.NotNil(t, 2, len(moduleBlock.GetExistingTags()))
 	})
 
-	t.Run("Test reading & writing of module block without tags", func(t *testing.T) {
-		p := &TerraformParser{}
-		p.Init("../../../tests/terraform/module/module", nil)
-		defer p.Close()
-		sourceFilePath := "../../../tests/terraform/module/module/main.tf"
-		expectedFileName := "../../../tests/terraform/module/module/expected.txt"
-		blocks, err := p.ParseFile(sourceFilePath)
-		if err != nil {
-			t.Fail()
-		}
-		assert.Equal(t, 1, len(blocks))
-		mb := blocks[0]
-		assert.Equal(t, "complete_sg", mb.GetResourceID())
-		assert.True(t, mb.IsBlockTaggable())
-		assert.Equal(t, "tags", mb.(*TerraformBlock).TagsAttributeName)
-		mb.AddNewTags([]tags.ITag{
-			&tags.Tag{Key: tags.TraceTagKey, Value: "some-uuid"},
-			&tags.Tag{Key: "mock_tag", Value: "mock_value"},
-		})
-
-		resultFileName := "result.txt"
-		defer func() {
-			_ = os.Remove(resultFileName)
-		}()
-		_ = p.WriteFile(sourceFilePath, blocks, resultFileName)
-		resultStr, _ := os.ReadFile(resultFileName)
-		expectedStr, _ := os.ReadFile(expectedFileName)
-		assert.Equal(t, string(expectedStr), string(resultStr))
-	})
-
 	t.Run("TestTagsAttributeScenarios", func(t *testing.T) {
 		p := &TerraformParser{}
 		p.Init("../../../tests/terraform/resources/attributescenarios", nil)
@@ -516,7 +487,41 @@ func TestTerraformParser_Module(t *testing.T) {
 		assert.Equal(t, string(expected), string(result))
 	})
 
+	t.Run("Test reading & writing of module block without tags", func(t *testing.T) {
+		testutils.SkipUnlessEnvFlag(t)
+		p := &TerraformParser{}
+		p.Init("../../../tests/terraform/module/module", nil)
+		defer p.Close()
+		sourceFilePath := "../../../tests/terraform/module/module/main.tf"
+		expectedFileName := "../../../tests/terraform/module/module/expected.txt"
+		blocks, err := p.ParseFile(sourceFilePath)
+		if err != nil {
+			t.Fail()
+		}
+		assert.Equal(t, 1, len(blocks))
+		mb := blocks[0]
+		assert.Equal(t, "complete_sg", mb.GetResourceID())
+		assert.True(t, mb.IsBlockTaggable())
+		assert.Equal(t, "tags", mb.(*TerraformBlock).TagsAttributeName)
+		mb.AddNewTags([]tags.ITag{
+			&tags.Tag{Key: tags.TraceTagKey, Value: "some-uuid"},
+			&tags.Tag{Key: "mock_tag", Value: "mock_value"},
+		})
+
+		resultFileName := "result.txt"
+		defer func() {
+			_ = os.Remove(resultFileName)
+		}()
+		_ = p.WriteFile(sourceFilePath, blocks, resultFileName)
+		resultStr, _ := os.ReadFile(resultFileName)
+		expectedStr, _ := os.ReadFile(expectedFileName)
+		assert.Equal(t, string(expectedStr), string(resultStr))
+		assert.Fail(t, "")
+	})
+
 	t.Run("Module isTaggable local/remote", func(t *testing.T) {
+		testutils.SkipUnlessEnvFlag(t)
+
 		directory := "../../../tests/terraform/resources/local_module"
 		terraformParser := TerraformParser{}
 		terraformParser.Init(directory, nil)

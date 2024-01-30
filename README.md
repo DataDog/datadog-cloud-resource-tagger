@@ -23,3 +23,7 @@ The following tags are being added for each resource configuration:
 * **dd_git_last_modified_at**: last modified at (date of the last commit)
 * **dd_git_modified_commit**: commit id of last commit 
 * **dd_git_resource_lines**: lines in the code matching the resource definition
+
+## CI/CD Integration
+You can use it in your CI/CD using our integration:
+* [GitHub Action] ()
