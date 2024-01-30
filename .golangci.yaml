@@ -1,0 +1,4 @@
+issues:
+  exclude:
+    - "(.+) is unused"
+    - "(.+) unnecessary assignment to the blank identifier"
