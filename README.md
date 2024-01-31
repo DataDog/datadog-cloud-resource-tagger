@@ -26,4 +26,4 @@ The following tags are being added for each resource configuration:
 
 ## CI/CD Integration
 You can use it in your CI/CD using our integration:
-* [GitHub Action] ()
+* [GitHub Action](https://github.com/DataDog/datadog-cloud-resource-tagger-action)
