@@ -36,11 +36,11 @@ type Runner struct {
 	workersNum           int
 	dryRun               bool
 	localModuleTag       bool
+	changedFiles         []string
 }
 
 func (r *Runner) Init(commands *clioptions.TagOptions) error {
 	dir := commands.Directory
-
 	r.parsers = append(r.parsers, &tfStructure.TerraformParser{})
 
 	options := map[string]string{}
@@ -56,6 +56,9 @@ func (r *Runner) Init(commands *clioptions.TagOptions) error {
 	for _, tagGroup := range r.TagGroups {
 		tagGroup.InitTagGroup(dir, commands.SkipTags, commands.Tag)
 	}
+
+	var changedFiles = strings.Split(commands.ChangedFiles, ",")
+	r.changedFiles = changedFiles
 
 	r.ChangeAccumulator = reports.TagChangeAccumulatorInstance
 	r.reportingService = reports.ReportServiceInst
@@ -75,6 +78,32 @@ func (r *Runner) worker(fileChan chan string, wg *sync.WaitGroup) {
 		r.TagFile(file)
 		wg.Done()
 	}
+}
+
+func (r *Runner) TagChangedFiles() (*reports.ReportService, error) {
+	var changedFiles = r.changedFiles
+
+	// Set up the wait group and the file channel
+	var wg sync.WaitGroup
+	wg.Add(len(changedFiles))
+	fileChan := make(chan string)
+
+	// Tag the changed files
+	for i := 0; i < r.workersNum; i++ {
+		go r.worker(fileChan, &wg)
+	}
+
+	for _, file := range changedFiles {
+		fileChan <- file
+	}
+	close(fileChan)
+	wg.Wait()
+
+	for _, parser := range r.parsers {
+		parser.Close()
+	}
+
+	return r.reportingService, nil
 }
 
 func (r *Runner) TagDirectory() (*reports.ReportService, error) {
