@@ -62,7 +62,7 @@ func tagCommand() *cli.Command {
 				OutputJSONFile: c.String(outputJSONFileArg),
 				TagGroups:      c.StringSlice(tagGroupArg),
 				DryRun:         c.Bool(dryRunArgs),
-				ChangedFiles:   c.String(changedFilesArg),
+				ChangedFiles:   c.StringSlice(changedFilesArg),
 			}
 			options.Validate()
 
@@ -95,7 +95,7 @@ func tagCommand() *cli.Command {
 				Usage:       "json file path for output",
 				DefaultText: "result.json",
 			},
-			&cli.StringFlag{
+			&cli.StringSliceFlag{
 				Name:        changedFilesArg,
 				Usage:       "tag only the specified files",
 				DefaultText: "",

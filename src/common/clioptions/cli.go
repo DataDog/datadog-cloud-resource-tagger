@@ -27,7 +27,7 @@ type TagOptions struct {
 	SkipTags       []string
 	TagGroups      []string `validate:"tagGroupNames"`
 	DryRun         bool
-	ChangedFiles   string
+	ChangedFiles   []string
 }
 
 type ListTagsOptions struct {

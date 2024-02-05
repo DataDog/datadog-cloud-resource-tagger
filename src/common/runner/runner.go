@@ -59,8 +59,7 @@ func (r *Runner) Init(commands *clioptions.TagOptions) error {
 		tagGroup.InitTagGroup(dir, commands.SkipTags, commands.Tag)
 	}
 
-	var changedFiles = strings.Split(commands.ChangedFiles, FILE_DELIMITER)
-	r.changedFiles = changedFiles
+	r.changedFiles = commands.ChangedFiles
 
 	r.ChangeAccumulator = reports.TagChangeAccumulatorInstance
 	r.reportingService = reports.ReportServiceInst
