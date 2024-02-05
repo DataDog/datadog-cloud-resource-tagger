@@ -39,6 +39,8 @@ type Runner struct {
 	changedFiles         []string
 }
 
+const FILE_DELIMITER = "<<||>>"
+
 func (r *Runner) Init(commands *clioptions.TagOptions) error {
 	dir := commands.Directory
 	r.parsers = append(r.parsers, &tfStructure.TerraformParser{})
@@ -57,7 +59,7 @@ func (r *Runner) Init(commands *clioptions.TagOptions) error {
 		tagGroup.InitTagGroup(dir, commands.SkipTags, commands.Tag)
 	}
 
-	var changedFiles = strings.Split(commands.ChangedFiles, ",")
+	var changedFiles = strings.Split(commands.ChangedFiles, FILE_DELIMITER)
 	r.changedFiles = changedFiles
 
 	r.ChangeAccumulator = reports.TagChangeAccumulatorInstance
