@@ -38,6 +38,7 @@ type Runner struct {
 	localModuleTag        bool
 	changedFiles          []string
 	includedResourceTypes []string
+	includedProviders     []string
 }
 
 func (r *Runner) Init(commands *clioptions.TagOptions) error {
@@ -73,6 +74,7 @@ func (r *Runner) Init(commands *clioptions.TagOptions) error {
 		logger.Warning(fmt.Sprintf("Selected dir, %s, is skipped - expect an empty result", r.dir))
 	}
 	r.includedResourceTypes = commands.IncludeResourceTypes
+	r.includedProviders = commands.IncludeProviders
 	return nil
 }
 
@@ -148,6 +150,19 @@ func (r *Runner) TagDirectory() (*reports.ReportService, error) {
 	return r.reportingService, nil
 }
 
+func (r *Runner) isIncludedProvider(resourceType string) bool {
+	if len(r.includedProviders) == 0 { // if no providers are specified, include all
+		return true
+	}
+	provider := utils.GetProviderFromResourceType(resourceType)
+	for _, includedProviders := range r.includedProviders {
+		if provider == includedProviders {
+			return true
+		}
+	}
+	return false
+}
+
 func (r *Runner) isIncludedResourceType(resourceType string) bool {
 	if len(r.includedResourceTypes) == 0 { // if no resource types are specified, include all
 		return true
@@ -200,6 +215,9 @@ func (r *Runner) TagFile(file string) {
 				continue
 			}
 			if !r.isIncludedResourceType((block.GetResourceType())) {
+				continue
+			}
+			if !r.isIncludedProvider(block.GetResourceType()) {
 				continue
 			}
 			if block.IsBlockTaggable() {

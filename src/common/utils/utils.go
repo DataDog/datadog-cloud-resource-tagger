@@ -83,3 +83,8 @@ func DetermineTopLevelDirectory(filepaths []string) string {
 	}
 	return topLevelDir
 }
+
+func GetProviderFromResourceType(resourceType string) string {
+	provider := strings.Split(resourceType, "_")[0]
+	return provider
+}

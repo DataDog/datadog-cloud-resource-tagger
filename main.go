@@ -49,6 +49,7 @@ func tagCommand() *cli.Command {
 	dryRunArgs := "dry-run"
 	changedFilesArg := "changed-files"
 	includeResourceTypesArg := "include-resource-types"
+	includeProvidersArg := "include-providers"
 
 	return &cli.Command{
 		Name:                   "tag",
@@ -65,6 +66,7 @@ func tagCommand() *cli.Command {
 				DryRun:               c.Bool(dryRunArgs),
 				ChangedFiles:         c.StringSlice(changedFilesArg),
 				IncludeResourceTypes: c.StringSlice(includeResourceTypesArg),
+				IncludeProviders:     c.StringSlice(includeProvidersArg),
 			}
 			options.Validate()
 
@@ -107,6 +109,12 @@ func tagCommand() *cli.Command {
 				Usage:       "only include these resource types for tagging",
 				Value:       cli.NewStringSlice(),
 				DefaultText: "aws_rds_instance,aws_s3_bucket,gcp_compute_instance",
+			},
+			&cli.StringSliceFlag{
+				Name:        includeProvidersArg,
+				Usage:       "only include these providers for tagging",
+				Value:       cli.NewStringSlice(),
+				DefaultText: "aws,gcp",
 			},
 		},
 	}
