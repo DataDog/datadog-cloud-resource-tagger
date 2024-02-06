@@ -5,13 +5,13 @@
 class DatadogCloudResourceTagger < Formula
   desc ""
   homepage ""
-  version "0.0.0"
+  version "0.0.1"
   license "Apache-2.0"
 
   on_macos do
     if Hardware::CPU.intel?
-      url "https://github.com/DataDog/datadog-cloud-resource-tagger/releases/download/v0.0.0/datadog-cloud-resource-tagger_Darwin_x86_64.tar.gz"
-      sha256 "ad9f5706804373e8ded889119bab748ba0861ba7acaa71eab01c78ea1678b6ad"
+      url "https://github.com/DataDog/datadog-cloud-resource-tagger/releases/download/v0.0.1/datadog-cloud-resource-tagger_Darwin_x86_64.tar.gz"
+      sha256 "65fd6a2f67fd4c3d3b86f42a5d2dc4291854a12a5d173682212df6769db788ac"
 
       def install
         bin.install "datadog-cloud-resource-tagger"
@@ -20,8 +20,8 @@ class DatadogCloudResourceTagger < Formula
       end
     end
     if Hardware::CPU.arm?
-      url "https://github.com/DataDog/datadog-cloud-resource-tagger/releases/download/v0.0.0/datadog-cloud-resource-tagger_Darwin_arm64.tar.gz"
-      sha256 "24778138f93b7985bea1179c52ce6768c1c9c11498471921280d7edb52994684"
+      url "https://github.com/DataDog/datadog-cloud-resource-tagger/releases/download/v0.0.1/datadog-cloud-resource-tagger_Darwin_arm64.tar.gz"
+      sha256 "ade1afd480b8c51903c2c165826ce048d3b6c2fbde47626e7c05a3dd0073c49f"
 
       def install
         bin.install "datadog-cloud-resource-tagger"
@@ -32,9 +32,9 @@ class DatadogCloudResourceTagger < Formula
   end
 
   on_linux do
-    if Hardware::CPU.intel?
-      url "https://github.com/DataDog/datadog-cloud-resource-tagger/releases/download/v0.0.0/datadog-cloud-resource-tagger_Linux_x86_64.tar.gz"
-      sha256 "189218bfffb3cb749c630fcac9b5087412f80ec5f788be1d0148ba94fc4ffc75"
+    if Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
+      url "https://github.com/DataDog/datadog-cloud-resource-tagger/releases/download/v0.0.1/datadog-cloud-resource-tagger_Linux_arm64.tar.gz"
+      sha256 "f77451c8c51c2525ea5f7765573aaa85ed2c2bceae1d943896470e4c901231f8"
 
       def install
         bin.install "datadog-cloud-resource-tagger"
@@ -42,9 +42,9 @@ class DatadogCloudResourceTagger < Formula
         generate_completions_from_executable(bin/"datadog-cloud-resource-tagger", "completion", shells: [:bash, :fish, :zsh], base_name: "datadog-cloud-resource-tagger")
       end
     end
-    if Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-      url "https://github.com/DataDog/datadog-cloud-resource-tagger/releases/download/v0.0.0/datadog-cloud-resource-tagger_Linux_arm64.tar.gz"
-      sha256 "9200ff61aadd56b03e6c62306b696c8c064b36afedd110cc91fa91dc8a7af0c0"
+    if Hardware::CPU.intel?
+      url "https://github.com/DataDog/datadog-cloud-resource-tagger/releases/download/v0.0.1/datadog-cloud-resource-tagger_Linux_x86_64.tar.gz"
+      sha256 "234f42b42f6b618cae7cd0a8d8f71cd37cf6fc6780cc81f1b11b544c48a363e6"
 
       def install
         bin.install "datadog-cloud-resource-tagger"
