@@ -41,15 +41,12 @@ func (t *TagGroup) InitTagGroup(path string, skippedTags []string, explicitlySpe
 	t.SkippedTags = skippedTags
 	t.SpecifiedTags = explicitlySpecifiedTags
 	t.Options = opt
-	if path != "" {
-		gitService, err := gitservice.NewGitService(path)
-		if err != nil {
-			logger.Error(fmt.Sprintf("Failed to initialize git service for path \"%s\". Please ensure the provided root directory is initialized via the git init command: %q", path, err), "SILENT")
-		}
-		t.GitService = gitService
-	} else {
-		logger.Debug("Path was passed as \"\", not initializing git service")
+	gitService, err := gitservice.NewGitService(path)
+	if err != nil {
+		logger.Error(fmt.Sprintf("Failed to initialize git service for path \"%s\". Please ensure the provided root directory is initialized via the git init command: %q", path, err), "SILENT")
 	}
+	t.GitService = gitService
+
 	t.SetTags(t.GetDefaultTags())
 }
 

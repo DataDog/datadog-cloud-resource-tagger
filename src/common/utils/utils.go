@@ -70,3 +70,16 @@ func FindSubMatchByGroup(r *regexp.Regexp, str string) map[string]string {
 
 	return subMatchMap
 }
+
+func DetermineTopLevelDirectory(filepaths []string) string {
+	if len(filepaths) == 0 {
+		return "."
+	}
+	topLevelDir := filepaths[0]
+	for _, fp := range filepaths {
+		if len(strings.Split(fp, "/")) < len(strings.Split(topLevelDir, "/")) {
+			topLevelDir = fp
+		}
+	}
+	return topLevelDir
+}

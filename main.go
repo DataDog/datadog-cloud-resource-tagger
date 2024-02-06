@@ -47,6 +47,7 @@ func tagCommand() *cli.Command {
 	outputJSONFileArg := "output-json-file"
 	tagGroupArg := "tag-groups"
 	dryRunArgs := "dry-run"
+	changedFilesArg := "changed-files"
 
 	return &cli.Command{
 		Name:                   "tag",
@@ -61,6 +62,7 @@ func tagCommand() *cli.Command {
 				OutputJSONFile: c.String(outputJSONFileArg),
 				TagGroups:      c.StringSlice(tagGroupArg),
 				DryRun:         c.Bool(dryRunArgs),
+				ChangedFiles:   c.StringSlice(changedFilesArg),
 			}
 			options.Validate()
 
@@ -71,8 +73,8 @@ func tagCommand() *cli.Command {
 				Name:        directoryArg,
 				Aliases:     []string{"d"},
 				Usage:       "directory to tag",
-				Required:    true,
-				DefaultText: "path/to/iac/root",
+				Required:    false,
+				DefaultText: "path/to/terraform/root",
 			},
 			&cli.StringFlag{
 				Name:        outputArg,
@@ -93,21 +95,33 @@ func tagCommand() *cli.Command {
 				Usage:       "json file path for output",
 				DefaultText: "result.json",
 			},
+			&cli.StringSliceFlag{
+				Name:  changedFilesArg,
+				Usage: "tag only the specified files",
+			},
 		},
 	}
 }
 
 func tag(options *clioptions.TagOptions) error {
 	iacTaggerRunner := new(runner.Runner)
-
-	logger.Info(fmt.Sprintf("Setting up to tag the directory %v\n", options.Directory))
 	err := iacTaggerRunner.Init(options)
+	var reportService *reports.ReportService
 	if err != nil {
 		logger.Error(err.Error())
 	}
-	reportService, err := iacTaggerRunner.TagDirectory()
-	if err != nil {
-		logger.Error(err.Error())
+	if len(options.ChangedFiles) > 0 {
+		logger.Info(fmt.Sprintf("Setting up to tag specified files %v\n", options.ChangedFiles))
+		reportService, err = iacTaggerRunner.TagChangedFiles()
+		if err != nil {
+			logger.Error(err.Error())
+		}
+	} else {
+		logger.Info(fmt.Sprintf("Setting up to tag the directory %v\n", options.Directory))
+		reportService, err = iacTaggerRunner.TagDirectory()
+		if err != nil {
+			logger.Error(err.Error())
+		}
 	}
 	printReport(reportService, options)
 
