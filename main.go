@@ -48,6 +48,7 @@ func tagCommand() *cli.Command {
 	tagGroupArg := "tag-groups"
 	dryRunArgs := "dry-run"
 	changedFilesArg := "changed-files"
+	includeResourceTypesArg := "include-resource-types"
 
 	return &cli.Command{
 		Name:                   "tag",
@@ -56,13 +57,14 @@ func tagCommand() *cli.Command {
 		UseShortOptionHandling: true,
 		Action: func(c *cli.Context) error {
 			options := clioptions.TagOptions{
-				Directory:      c.String(directoryArg),
-				Tag:            c.StringSlice(tagArg),
-				Output:         c.String(outputArg),
-				OutputJSONFile: c.String(outputJSONFileArg),
-				TagGroups:      c.StringSlice(tagGroupArg),
-				DryRun:         c.Bool(dryRunArgs),
-				ChangedFiles:   c.StringSlice(changedFilesArg),
+				Directory:            c.String(directoryArg),
+				Tag:                  c.StringSlice(tagArg),
+				Output:               c.String(outputArg),
+				OutputJSONFile:       c.String(outputJSONFileArg),
+				TagGroups:            c.StringSlice(tagGroupArg),
+				DryRun:               c.Bool(dryRunArgs),
+				ChangedFiles:         c.StringSlice(changedFilesArg),
+				IncludeResourceTypes: c.StringSlice(includeResourceTypesArg),
 			}
 			options.Validate()
 
@@ -75,6 +77,7 @@ func tagCommand() *cli.Command {
 				Usage:       "directory to tag",
 				Required:    false,
 				DefaultText: "path/to/terraform/root",
+				Value:       ".",
 			},
 			&cli.StringFlag{
 				Name:        outputArg,
@@ -98,6 +101,12 @@ func tagCommand() *cli.Command {
 			&cli.StringSliceFlag{
 				Name:  changedFilesArg,
 				Usage: "tag only the specified files",
+			},
+			&cli.StringSliceFlag{
+				Name:        includeResourceTypesArg,
+				Usage:       "only include these resource types for tagging",
+				Value:       cli.NewStringSlice(),
+				DefaultText: "aws_rds_instance,aws_s3_bucket,gcp_compute_instance",
 			},
 		},
 	}

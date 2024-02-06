@@ -23,20 +23,21 @@ import (
 )
 
 type Runner struct {
-	TagGroups            []tagging.ITagGroup
-	parsers              []common.IParser
-	ChangeAccumulator    *reports.TagChangeAccumulator
-	reportingService     *reports.ReportService
-	dir                  string
-	skipDirs             []string
-	skippedTags          []string
-	configFilePath       string
-	skippedResourceTypes []string
-	skippedResources     []string
-	workersNum           int
-	dryRun               bool
-	localModuleTag       bool
-	changedFiles         []string
+	TagGroups             []tagging.ITagGroup
+	parsers               []common.IParser
+	ChangeAccumulator     *reports.TagChangeAccumulator
+	reportingService      *reports.ReportService
+	dir                   string
+	skipDirs              []string
+	skippedTags           []string
+	configFilePath        string
+	skippedResourceTypes  []string
+	skippedResources      []string
+	workersNum            int
+	dryRun                bool
+	localModuleTag        bool
+	changedFiles          []string
+	includedResourceTypes []string
 }
 
 func (r *Runner) Init(commands *clioptions.TagOptions) error {
@@ -71,6 +72,7 @@ func (r *Runner) Init(commands *clioptions.TagOptions) error {
 	if utils.InSlice(r.skipDirs, r.dir) {
 		logger.Warning(fmt.Sprintf("Selected dir, %s, is skipped - expect an empty result", r.dir))
 	}
+	r.includedResourceTypes = commands.IncludeResourceTypes
 	return nil
 }
 
@@ -146,6 +148,18 @@ func (r *Runner) TagDirectory() (*reports.ReportService, error) {
 	return r.reportingService, nil
 }
 
+func (r *Runner) isIncludedResourceType(resourceType string) bool {
+	if len(r.includedResourceTypes) == 0 { // if no resource types are specified, include all
+		return true
+	}
+	for _, includedResourceType := range r.includedResourceTypes {
+		if resourceType == includedResourceType {
+			return true
+		}
+	}
+	return false
+}
+
 func (r *Runner) isSkippedResourceType(resourceType string) bool {
 	for _, skippedResourceType := range r.skippedResourceTypes {
 		if resourceType == skippedResourceType {
@@ -183,6 +197,9 @@ func (r *Runner) TagFile(file string) {
 				continue
 			}
 			if r.isSkippedResource(block.GetResourceID()) {
+				continue
+			}
+			if !r.isIncludedResourceType((block.GetResourceType())) {
 				continue
 			}
 			if block.IsBlockTaggable() {
