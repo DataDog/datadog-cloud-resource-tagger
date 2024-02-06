@@ -96,9 +96,8 @@ func tagCommand() *cli.Command {
 				DefaultText: "result.json",
 			},
 			&cli.StringSliceFlag{
-				Name:        changedFilesArg,
-				Usage:       "tag only the specified files",
-				DefaultText: "",
+				Name:  changedFilesArg,
+				Usage: "tag only the specified files",
 			},
 		},
 	}

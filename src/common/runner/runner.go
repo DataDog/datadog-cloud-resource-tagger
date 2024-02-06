@@ -39,10 +39,11 @@ type Runner struct {
 	changedFiles         []string
 }
 
-const FILE_DELIMITER = "<<||>>"
-
 func (r *Runner) Init(commands *clioptions.TagOptions) error {
 	dir := commands.Directory
+	if dir == "" {
+		dir = utils.DetermineTopLevelDirectory(commands.ChangedFiles)
+	}
 	r.parsers = append(r.parsers, &tfStructure.TerraformParser{})
 
 	options := map[string]string{}
