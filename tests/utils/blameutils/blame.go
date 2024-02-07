@@ -1,6 +1,7 @@
 package blameutils
 
 import (
+	"fmt"
 	"math/rand"
 	"testing"
 	"time"
@@ -18,6 +19,7 @@ const Repository = "a"
 const FilePath = "README.md"
 const CommitHash1 = "47accf06f13b503f3bab06fed7860e72f7523cac"
 const CommitHash2 = "b2dc884b7439882c4dbe1e660cb1e02a3f84e45d"
+const RepositoryUrl = "git@github.com:datadog/a"
 
 func GetGitLines(t *testing.T, numOfLines int) []*git.Line {
 	dateStr0 := "2020-03-28T21:42:46.000Z"
@@ -54,9 +56,10 @@ func SetupBlame(t *testing.T) gitservice.GitBlame {
 	gitLines := GetGitLines(t, 3)
 
 	return gitservice.GitBlame{
-		GitOrg:        Org,
-		GitRepository: Repository,
-		FilePath:      FilePath,
+		GitOrg:           Org,
+		GitRepository:    Repository,
+		GitRepositoryUrl: fmt.Sprintf("git@github.com:%s/%s", Org, Repository),
+		FilePath:         FilePath,
 		BlamesByLine: map[int]*git.Line{
 			0: gitLines[0],
 			1: gitLines[1],
