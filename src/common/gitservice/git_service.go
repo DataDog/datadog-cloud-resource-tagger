@@ -32,6 +32,7 @@ type GitService struct {
 	BlameByFile         *sync.Map
 	PreviousBlameByFile *sync.Map
 	currentUserEmail    string
+	repositoryUrl       string
 }
 
 var gitGraphLock sync.Mutex
@@ -81,6 +82,9 @@ func (g *GitService) setOrgAndName() error {
 	for _, remote := range remotes {
 		if remote.Config().Name == "origin" {
 			g.remoteURL = remote.Config().URLs[0]
+
+			g.repositoryUrl = strings.TrimSuffix(g.remoteURL, ".git")
+
 			// get endpoint structured like '/github.com/Datadog/cloud-resource-tagger.git
 			endpoint, err := transport.NewEndpoint(g.remoteURL)
 			if err != nil {

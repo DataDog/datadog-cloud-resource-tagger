@@ -240,6 +240,9 @@ func (t *TagGroup) cleanGCPTagValue(val tags.ITag) {
 	case tags.GitRepoTagKey:
 		updated = strings.ReplaceAll(updated, "/", "__")
 		updated = strings.ReplaceAll(updated, ".", "_")
+	case tags.GitRepoUrlTagKey:
+		updated = strings.ReplaceAll(updated, "/", "__")
+		updated = strings.ReplaceAll(updated, ".", "_")
 	}
 
 	val.SetValue(updated)
