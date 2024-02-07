@@ -4,7 +4,7 @@ Tagger for Terraform cloud resource files to include ownership details based on 
 The project is based on the [Yor project by bridgecrew](https://github.com/bridgecrewio/yor-action).
 
 ## Features
-* Apply tags and labels on infrastructure as code directory
+* Apply tags and labels on infrastructure as code directory or list of selected files
 * Change management: git-based tags automatically add org, repo, commit and modifier details on every resource block.
 
 ## How it works
