@@ -54,6 +54,7 @@ func (t *TagGroup) GetDefaultTags() []tags.ITag {
 	return []tags.ITag{
 		&GitOrgTag{},
 		&GitRepoTag{},
+		&GitRepoUrlTag{},
 		&GitFileTag{},
 		&GitModifiedCommitTag{},
 		&GitModifiersTag{},

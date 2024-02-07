@@ -31,6 +31,13 @@ func TestTagCreation(t *testing.T) {
 		assert.Equal(t, blameutils.Repository, valueTag.GetValue())
 	})
 
+	t.Run("GitRepoUrlTagCreation", func(t *testing.T) {
+		tag := GitRepoUrlTag{}
+		valueTag := EvaluateTag(t, &tag, blame)
+		assert.Equal(t, valueTag.GetKey(), "dd_git_repo_url")
+		assert.Equal(t, blameutils.RepositoryUrl, valueTag.GetValue())
+	})
+
 	t.Run("GitFileTagCreation", func(t *testing.T) {
 		tag := GitFileTag{}
 		valueTag := EvaluateTag(t, &tag, blame)
