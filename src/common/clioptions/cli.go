@@ -29,6 +29,7 @@ type TagOptions struct {
 	DryRun               bool
 	ChangedFiles         []string
 	IncludeResourceTypes []string
+	IncludeProviders     []string
 }
 
 type ListTagsOptions struct {
@@ -42,6 +43,7 @@ func (o *TagOptions) Validate() {
 	o.Tag = utils.SplitStringByComma(o.Tag)
 	o.TagGroups = utils.SplitStringByComma(o.TagGroups)
 	o.IncludeResourceTypes = utils.SplitStringByComma(o.IncludeResourceTypes)
+	o.IncludeProviders = utils.SplitStringByComma(o.IncludeProviders)
 
 	if err := validator.Validate(o); err != nil {
 		logger.Error(err.Error())
