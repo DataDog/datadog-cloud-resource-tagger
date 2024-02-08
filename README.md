@@ -14,6 +14,7 @@ The following tags are being added for each resource configuration:
 * **dd_correlation_uuid**: a tag to enable attribution between an IaC resource block and a running cloud resource
 * **dd_git_org**: organization 
 * **dd_git_repo**: repository
+* **dd_git_repo_url**: repository url
 * **dd_git_file**: file Path
 * **dd_git_modifiers**: users who modified the resource 
 * **dd_git_created_by**: created by (user's email of the first commit)
