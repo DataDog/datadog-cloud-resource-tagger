@@ -18,11 +18,12 @@ import (
 )
 
 type GitBlame struct {
-	GitOrg        string
-	GitRepository string
-	BlamesByLine  map[int]*git.Line
-	FilePath      string
-	GitUserEmail  string
+	GitOrg           string
+	GitRepository    string
+	BlamesByLine     map[int]*git.Line
+	FilePath         string
+	GitUserEmail     string
+	GitRepositoryUrl string
 }
 
 func GetPreviousBlameResult(gitSvc *GitService, filePath string) (*git.BlameResult, *object.Commit) {
@@ -54,7 +55,7 @@ func GetPreviousBlameResult(gitSvc *GitService, filePath string) (*git.BlameResu
 }
 
 func NewGitBlame(relativeFilePath string, filePath string, lines structure.Lines, blameResult *git.BlameResult, gitSvc *GitService) *GitBlame {
-	gitBlame := GitBlame{GitOrg: gitSvc.organization, GitRepository: gitSvc.repoName, BlamesByLine: map[int]*git.Line{}, FilePath: relativeFilePath, GitUserEmail: gitSvc.currentUserEmail}
+	gitBlame := GitBlame{GitOrg: gitSvc.organization, GitRepository: gitSvc.repoName, GitRepositoryUrl: gitSvc.repositoryUrl, BlamesByLine: map[int]*git.Line{}, FilePath: relativeFilePath, GitUserEmail: gitSvc.currentUserEmail}
 	startLine := lines.Start - 1 // the lines in blameResult.Lines start from zero while the lines range start from 1
 	endLine := lines.End - 1
 	previousBlameResult, previousCommit := GetPreviousBlameResult(gitSvc, filePath)

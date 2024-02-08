@@ -54,6 +54,7 @@ func (t *TagGroup) GetDefaultTags() []tags.ITag {
 	return []tags.ITag{
 		&GitOrgTag{},
 		&GitRepoTag{},
+		&GitRepoUrlTag{},
 		&GitFileTag{},
 		&GitModifiedCommitTag{},
 		&GitModifiersTag{},
@@ -238,6 +239,9 @@ func (t *TagGroup) cleanGCPTagValue(val tags.ITag) {
 		updated = strings.Split(updated, "@")[0]
 		updated = utils.RemoveGcpInvalidChars.ReplaceAllString(updated, "")
 	case tags.GitRepoTagKey:
+		updated = strings.ReplaceAll(updated, "/", "__")
+		updated = strings.ReplaceAll(updated, ".", "_")
+	case tags.GitRepoUrlTagKey:
 		updated = strings.ReplaceAll(updated, "/", "__")
 		updated = strings.ReplaceAll(updated, ".", "_")
 	}

@@ -22,6 +22,7 @@ const GitLastModifiedByTagKey = "dd_git_last_modified_by"
 const GitCreatedAtTagKey = "dd_git_created_at"
 const GitCreatedByTagKey = "dd_git_created_by"
 const GitRepoTagKey = "dd_git_repo"
+const GitRepoUrlTagKey = "dd_git_repo_url"
 const ResourceNameTagKey = "dd_resource_name"
 
 type ITag interface {
