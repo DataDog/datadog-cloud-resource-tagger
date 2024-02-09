@@ -1,7 +1,7 @@
 # cloud-resources-tagger
 Tagger for Terraform cloud resource files to include ownership details based on git commit info.
 
-The project is based on the [Yor project by bridgecrew](https://github.com/bridgecrewio/yor-action).
+The project is based on the [Yor project by bridgecrew](https://github.com/bridgecrewio/yor).
 
 ## Features
 * Apply tags and labels on infrastructure as code directory or list of selected files
