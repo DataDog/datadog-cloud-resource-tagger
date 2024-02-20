@@ -4,4 +4,4 @@
 // Copyright 2024-present Datadog, Inc.
 package common
 
-const Version = "0.0.6"
+const Version = "0.0.7"
