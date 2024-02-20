@@ -22,7 +22,7 @@ import (
 
 func main() {
 	app := &cli.App{
-		Name:                   "cloud-resource-tagger",
+		Name:                   "datadog-cloud-resource-tagger",
 		HelpName:               "",
 		Usage:                  "Tag your cloud resources with git information",
 		Version:                common.Version,

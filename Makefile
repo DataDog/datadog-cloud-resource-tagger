@@ -6,7 +6,10 @@ ROOT_DIR := $(dir $(MAKEFILE_PATH))
 BIN_DIR := $(ROOT_DIR)/bin
 
 BINARY := datadog-cloud-resource-tagger
-PKG := github.com/Datadog/cloud-resource-tagger
+PKG := github.com/Datadog/datadog-cloud-resource-tagger
+
+# Default target
+all: build
 
 build:
 	go install && CGO_ENABLED=0 go build -o $(BIN_DIR)/$(BINARY) $(PKG)
@@ -28,5 +31,5 @@ thirdparty-licenses:
 	@echo "Retrieving third-party licenses..."
 	go get github.com/google/go-licenses
 	go install github.com/google/go-licenses
-	@go-licenses report github.com/Datadog/cloud-resource-tagger > LICENSE-3rdparty.csv
+	@go-licenses report github.com/Datadog/datadog-cloud-resource-tagger > LICENSE-3rdparty.csv
 	@echo "Third-party licenses retrieved and saved to LICENSE-3rdparty.csv"

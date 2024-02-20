@@ -25,8 +25,9 @@ class DatadogCloudResourceTagger < Formula
 
       def install
         bin.install "datadog-cloud-resource-tagger"
-        # Install shell completions
-        generate_completions_from_executable(bin/"datadog-cloud-resource-tagger", "completion", shells: [:bash, :fish, :zsh], base_name: "datadog-cloud-resource-tagger")
+        bash_completion.install bin/"datadog-cloud-resource-tagger" => "datadog-cloud-resource-tagger"
+        zsh_completion.install bin/"datadog-cloud-resource-tagger" => "_datadog-cloud-resource-tagger"
+        fish_completion.install bin/"datadog-cloud-resource-tagger"
       end
     end
   end
