@@ -29,8 +29,6 @@ brews:
   license: Apache-2.0
   install: |
     bin.install "datadog-cloud-resource-tagger"
-    # Install shell completions
-    bash_completion.install bin/"datadog-cloud-resource-tagger" => "datadog-cloud-resource-tagger"
   
 archives:
   - name_template: >-
