@@ -28,3 +28,10 @@ The following tags are being added for each resource configuration:
 ## CI/CD Integration
 You can use it in your CI/CD using our integration:
 * [GitHub Action](https://github.com/DataDog/datadog-cloud-resource-tagger-action)
+
+## Running locally
+You can brew install the CLI by running the following commands:
+1. `brew tap datadog/datadog-cloud-resource-tagger https://github.com/DataDog/datadog-cloud-resource-tagger`
+2. `brew install datadog-cloud-resource-tagger`
+
+You may need to run `sudo launchctl config user path "$(brew --prefix)/bin:${PATH}"` and relaunch your terminal if running on MacOS Mountain Lion or later. See [this](https://docs.brew.sh/FAQ#my-mac-apps-dont-find-homebrew-utilities) for more information.
