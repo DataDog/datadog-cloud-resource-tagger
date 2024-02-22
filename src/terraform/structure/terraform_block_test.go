@@ -23,7 +23,7 @@ func TestTerraformBlock(t *testing.T) {
 			},
 			&gittag.GitOrgTag{
 				Tag: tags.Tag{
-					Key:   "git_org",
+					Key:   "dd_git_org",
 					Value: "datadog",
 				},
 			},
@@ -44,7 +44,7 @@ func TestTerraformBlock(t *testing.T) {
 			},
 			&gittag.GitOrgTag{
 				Tag: tags.Tag{
-					Key:   "git_org",
+					Key:   "dd_git_org",
 					Value: "datadog",
 				},
 			},
@@ -75,7 +75,7 @@ func TestTerraformBlock(t *testing.T) {
 			},
 			&gittag.GitOrgTag{
 				Tag: tags.Tag{
-					Key:   "git_org",
+					Key:   "dd_git_org",
 					Value: "datadog",
 				},
 			},
@@ -106,7 +106,7 @@ func TestTerraformBlock(t *testing.T) {
 			},
 			&gittag.GitOrgTag{
 				Tag: tags.Tag{
-					Key:   "git_org",
+					Key:   "dd_git_org",
 					Value: "datadog",
 				},
 			},
@@ -138,7 +138,7 @@ func TestTerraformBlock(t *testing.T) {
 			},
 			&gittag.GitOrgTag{
 				Tag: tags.Tag{
-					Key:   "git_org",
+					Key:   "dd_git_org",
 					Value: "datadog",
 				},
 			},

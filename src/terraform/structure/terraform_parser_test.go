@@ -90,11 +90,11 @@ func TestTerraformParser_ParseFile(t *testing.T) {
 		expectedTags := map[string]map[string]string{
 			"vpc_tags_one_line":                         {"Name": "tag-for-s3", "Environment": "prod"},
 			"bucket_var_tags":                           {},
-			"alb_with_merged_tags":                      {"Name": "tag-for-alb", "Environment": "prod", "dd_correlation_uuid": "4329587194", "git_org": "bana"},
-			"many_instance_tags":                        {"Name": "tag-for-instance", "Environment": "prod", "Owner": "datadog", "dd_correlation_uuid": "4329587194", "git_org": "bana"},
-			"instance_merged_var":                       {"dd_correlation_uuid": "4329587194", "git_org": "bana"},
+			"alb_with_merged_tags":                      {"Name": "tag-for-alb", "Environment": "prod", "dd_correlation_uuid": "4329587194", "dd_git_org": "bana"},
+			"many_instance_tags":                        {"Name": "tag-for-instance", "Environment": "prod", "Owner": "datadog", "dd_correlation_uuid": "4329587194", "dd_git_org": "bana"},
+			"instance_merged_var":                       {"dd_correlation_uuid": "4329587194", "dd_git_org": "bana"},
 			"instance_merged_override":                  {"Environment": "new_env"},
-			"aurora_cluster_bastion_auto_scaling_group": {"git_org": "datadog", "git_repo": "platform", "dd_correlation_uuid": "48564943-4cfc-403c-88cd-cbb207e0d33e", "Name": "bc-aurora-bastion"},
+			"aurora_cluster_bastion_auto_scaling_group": {"dd_git_org": "datadog", "git_repo": "platform", "dd_correlation_uuid": "48564943-4cfc-403c-88cd-cbb207e0d33e", "Name": "bc-aurora-bastion"},
 			"instance_null_tags":                        nil,
 		}
 
@@ -282,6 +282,8 @@ func TestTerraformParser_Module(t *testing.T) {
 				}
 			}
 		}
+		bytes, _ := os.ReadFile(writeFilePath)
+		fmt.Printf("%s", bytes)
 	})
 
 	t.Run("Parse a file with escaped tags, tag its blocks, and write them to the file", func(t *testing.T) {
@@ -471,8 +473,8 @@ func TestTerraformParser_Module(t *testing.T) {
 		for _, block := range blocks {
 			if block.IsBlockTaggable() {
 				block.AddNewTags([]tags.ITag{
-					&tags.Tag{Key: "git_repo", Value: "a"},
-					&tags.Tag{Key: "git_org", Value: "datadog"},
+					&tags.Tag{Key: "dd_git_repo", Value: "a"},
+					&tags.Tag{Key: "dd_git_org", Value: "datadog"},
 				})
 			}
 		}
