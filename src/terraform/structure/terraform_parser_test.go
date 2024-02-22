@@ -489,8 +489,70 @@ func TestTerraformParser_Module(t *testing.T) {
 		assert.Equal(t, string(expected), string(result))
 	})
 
+	t.Run("Parse a remote module and tag its blocks correctly", func(t *testing.T) {
+		rootDir := "../../../tests/terraform/module/remote_module"
+		filePath := "../../../tests/terraform/module/remote_module/main.tf"
+		originFileBytes, _ := os.ReadFile(filePath)
+		defer func() {
+			_ = os.WriteFile(filePath, originFileBytes, 0644)
+		}()
+		p := &TerraformParser{}
+		blameLines := CreateComplexTagsLines()
+		gitService := &gitservice.GitService{}
+		var blameByFile sync.Map
+		blameByFile.Store(filePath, &git.BlameResult{Lines: blameLines})
+		gitService.BlameByFile = &blameByFile
+		tagGroup := &gittag.TagGroup{GitService: gitService}
+		c2cTagGroup := &code2cloud.TagGroup{}
+		tagGroup.InitTagGroup(rootDir, nil, nil)
+		c2cTagGroup.InitTagGroup("", nil, nil)
+		p.Init(rootDir, nil)
+		writeFilePath := "../../../tests/terraform/module/remote_module/main_tagged.tf"
+		writeFileBytes, _ := os.ReadFile(writeFilePath)
+		defer func() {
+			_ = os.WriteFile(writeFilePath, writeFileBytes, 0644)
+		}()
+		parsedBlocks, err := p.ParseFile(filePath)
+		if err != nil {
+			t.Errorf("failed to read hcl file because %s", err)
+		}
+
+		for _, block := range parsedBlocks {
+			if block.IsBlockTaggable() {
+				_ = tagGroup.CreateTagsForBlock(block)
+				_ = c2cTagGroup.CreateTagsForBlock(block)
+			}
+		}
+
+		err = p.WriteFile(filePath, parsedBlocks, writeFilePath)
+		if err != nil {
+			t.Error(err)
+		}
+		parsedTaggedFileTags, err := p.ParseFile(writeFilePath)
+		if err != nil {
+			t.Error(err)
+		}
+
+		for _, block := range parsedTaggedFileTags {
+			if block.IsBlockTaggable() {
+				isDDTraceTagExists := false
+				ddTraceTagKey := tags.TraceTagKey
+				for _, tag := range block.GetExistingTags() {
+					if tag.GetKey() == ddTraceTagKey || strings.ReplaceAll(tag.GetKey(), `"`, "") == ddTraceTagKey {
+						isDDTraceTagExists = true
+					}
+				}
+				if !isDDTraceTagExists {
+					t.Errorf("tag not found on merged block %v", ddTraceTagKey)
+				}
+			}
+		}
+		bytes, _ := os.ReadFile(writeFilePath)
+		fmt.Printf("%s", bytes)
+	})
+
 	t.Run("Test reading & writing of module block without tags", func(t *testing.T) {
-		testutils.SkipUnlessEnvFlag(t)
+		// testutils.SkipUnlessEnvFlag(t)
 		p := &TerraformParser{}
 		p.Init("../../../tests/terraform/module/module", nil)
 		defer p.Close()
@@ -517,8 +579,8 @@ func TestTerraformParser_Module(t *testing.T) {
 		_ = p.WriteFile(sourceFilePath, blocks, resultFileName)
 		resultStr, _ := os.ReadFile(resultFileName)
 		expectedStr, _ := os.ReadFile(expectedFileName)
+		fmt.Printf("%s", resultStr)
 		assert.Equal(t, string(expectedStr), string(resultStr))
-		assert.Fail(t, "")
 	})
 
 	t.Run("Module isTaggable local/remote", func(t *testing.T) {
