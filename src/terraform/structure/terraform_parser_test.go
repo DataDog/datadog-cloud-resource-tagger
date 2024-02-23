@@ -552,7 +552,6 @@ func TestTerraformParser_Module(t *testing.T) {
 	})
 
 	t.Run("Test reading & writing of module block without tags", func(t *testing.T) {
-		// testutils.SkipUnlessEnvFlag(t)
 		sourceFilePath := "../../../tests/terraform/module/module/main.tf"
 		rootDir := "../../../tests/terraform/module"
 		p := &TerraformParser{}
@@ -582,6 +581,7 @@ func TestTerraformParser_Module(t *testing.T) {
 			&tags.Tag{Key: "mock_tag", Value: "mock_value"},
 		})
 		taggedResultFilePath := "main_tagged.tf"
+		expectedTaggedFilePath := "../../../tests/terraform/module/module/expected_tagged.txt"
 		resultFileName := "result.txt"
 		defer func() {
 			_ = os.Remove(resultFileName)
@@ -600,7 +600,6 @@ func TestTerraformParser_Module(t *testing.T) {
 		for _, block := range parsedBlocks {
 			if block.IsBlockTaggable() {
 				_ = tagGroup.CreateTagsForBlock(block)
-				_ = c2cTagGroup.CreateTagsForBlock(block)
 			}
 		}
 
@@ -609,27 +608,10 @@ func TestTerraformParser_Module(t *testing.T) {
 			t.Error(err)
 		}
 
-		parsedTaggedFileTags, err := p.ParseFile(taggedResultFilePath)
-		if err != nil {
-			t.Error(err)
-		}
-
-		for _, block := range parsedTaggedFileTags {
-			if block.IsBlockTaggable() {
-				isDDTraceTagExists := false
-				ddTraceTagKey := tags.TraceTagKey
-				for _, tag := range block.GetExistingTags() {
-					if tag.GetKey() == ddTraceTagKey || strings.ReplaceAll(tag.GetKey(), `"`, "") == ddTraceTagKey {
-						isDDTraceTagExists = true
-					}
-				}
-				if !isDDTraceTagExists {
-					t.Errorf("tag not found on merged block %v", ddTraceTagKey)
-				}
-			}
-		}
-		bytes, _ := os.ReadFile(taggedResultFilePath)
-		fmt.Printf("%s", bytes)
+		resultStr, _ = os.ReadFile(taggedResultFilePath)
+		expectedStr, _ = os.ReadFile(expectedTaggedFilePath)
+		fmt.Printf("%s", resultStr)
+		assert.Equal(t, string(expectedStr), string(resultStr))
 	})
 
 	t.Run("Module isTaggable local/remote", func(t *testing.T) {
