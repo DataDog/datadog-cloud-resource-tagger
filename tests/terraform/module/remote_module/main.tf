@@ -3,7 +3,7 @@ locals {
   account_name = "security-sandbox"
 }
 module "dd-terraform-statefile" {
-  source = "git::https://github.com/DataDog/cloud-inventory.git//terraform-modules/aws-bucket?ref=aws-bucket_v4.2.1"
+  source = "git::https://github.com/DataDog/cloud-inventory.git/terraform-modules/aws-bucket?ref=aws-bucket_v4.2.1"
 
   bucket_name = "dd-terraform-${var.account}"
   team        = "cloud-security"
