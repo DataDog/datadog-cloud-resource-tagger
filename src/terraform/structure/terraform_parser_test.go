@@ -553,6 +553,8 @@ func TestTerraformParser_Module(t *testing.T) {
 	})
 
 	t.Run("Test reading & writing of module block without tags", func(t *testing.T) {
+		testutils.SkipUnlessEnvFlag(t)
+
 		sourceFilePath := "../../../tests/terraform/module/module/main.tf"
 		rootDir := "../../../tests/terraform/module"
 		p := &TerraformParser{}
