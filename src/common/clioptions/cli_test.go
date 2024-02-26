@@ -38,6 +38,19 @@ func TestCliArgParsing(t *testing.T) {
 		options.Validate()
 	})
 
+	t.Run("Test tag argument parsing - valid specified tags", func(t *testing.T) {
+		options := TagOptions{
+			Directory:      "some/dir",
+			Tag:            []string{"tag1", "tag2"},
+			SkipTags:       nil,
+			Output:         "cli",
+			OutputJSONFile: "",
+			DryRun:         true,
+		}
+		// Expect the validation to pass without throwing errors
+		options.Validate()
+	})
+
 	t.Run("Test tag argument parsing - invalid output", func(t *testing.T) {
 		cmd := exec.Command(os.Args[0], "-test.run=TestOutputCrasher")
 		cmd.Env = append(cmd.Env, "UT_CRASH=RUN")

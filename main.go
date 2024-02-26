@@ -81,6 +81,13 @@ func tagCommand() *cli.Command {
 				DefaultText: "path/to/terraform/root",
 				Value:       ".",
 			},
+			&cli.StringSliceFlag{
+				Name:        tagArg,
+				Aliases:     []string{"t"},
+				Usage:       "run only with the specified tags",
+				DefaultText: "dd_git_org,dd_git_repo,dd_git_file,dd_git_modified_commit,dd_git_resource_lines",
+				// Value:       cli.NewStringSlice(gittag.GetMinimumDefaultGitTags()...),
+			},
 			&cli.StringFlag{
 				Name:        outputArg,
 				Aliases:     []string{"o"},

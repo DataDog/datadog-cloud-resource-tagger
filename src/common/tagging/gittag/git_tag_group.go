@@ -248,3 +248,7 @@ func (t *TagGroup) cleanGCPTagValue(val tags.ITag) {
 
 	val.SetValue(updated)
 }
+
+func GetMinimumDefaultGitTags() []string {
+	return []string{"dd_git_org,dd_git_repo,dd_git_file,dd_git_modified_commit,dd_git_resource_lines"}
+}
