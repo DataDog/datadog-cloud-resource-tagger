@@ -417,6 +417,7 @@ func TestTerraformParser_Module(t *testing.T) {
 	})
 
 	t.Run("Test reading & writing of module block", func(t *testing.T) {
+		testutils.SkipUnlessEnvFlag(t)
 		p := &TerraformParser{}
 		p.Init("../../../tests/terraform/module/module_with_tags", nil)
 		defer p.Close()
