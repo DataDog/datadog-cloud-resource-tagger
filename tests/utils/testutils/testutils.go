@@ -11,6 +11,11 @@ import (
 func SkipUnlessEnvFlag(t *testing.T) {
 	testName := t.Name()
 
+	_, ok := os.LookupEnv("TEST_ALL")
+	if ok {
+		return
+	}
+
 	noSkip, ok := os.LookupEnv("TEST_INCLUDE")
 	if !ok {
 		t.Skipf("Skipping %s - TEST_INCLUDE doesn't exist", testName)
