@@ -511,28 +511,22 @@ func (p *TerraformParser) extractTagsFromModule(hclBlock *hclwrite.Block, filePa
 	// source is always wrapped in " front and back
 	moduleSource = strings.Trim(moduleSource, "\" ")
 
-	if !isRemoteModule(moduleSource) && !isTerraformRegistryModule(moduleSource) && !p.tagLocalModules {
-		// Don't use the tags label on local modules - the underlying resources will be tagged by themselves
-		isTaggable = false
-	} else {
-		// This is a remote module - if it has tags attribute, tag it!
-		moduleProvider := ExtractProviderFromModuleSrc(moduleSource)
-		possibleTagAttributeNames := []string{"extra_tags", "tags", "common_tags", "labels"}
-		if val, ok := ProviderToTagAttribute[moduleProvider]; ok {
-			possibleTagAttributeNames = append(possibleTagAttributeNames, val)
-		}
-		for _, tan := range possibleTagAttributeNames {
-			existingTags, isTaggable = p.getModuleTags(hclBlock, tan)
+	moduleProvider := ExtractProviderFromModuleSrc(moduleSource)
+	possibleTagAttributeNames := []string{"extra_tags", "tags", "common_tags", "labels"}
+	if val, ok := ProviderToTagAttribute[moduleProvider]; ok {
+		possibleTagAttributeNames = append(possibleTagAttributeNames, val)
+	}
+	for _, tan := range possibleTagAttributeNames {
+		existingTags, isTaggable = p.getModuleTags(hclBlock, tan)
 
-			if isTaggable {
-				tagsAttributeName = tan
-				break
-			}
+		if isTaggable {
+			tagsAttributeName = tan
+			break
 		}
-		if !isTaggable {
-			moduleDir := ExtractSubdirFromRemoteModuleSrc(moduleSource)
-			isTaggable, tagsAttributeName = p.isModuleTaggable(filePath, strings.Join(hclBlock.Labels(), "."), moduleDir, possibleTagAttributeNames)
-		}
+	}
+	if !isTaggable {
+		moduleDir := ExtractSubdirFromRemoteModuleSrc(moduleSource)
+		isTaggable, tagsAttributeName = p.isModuleTaggable(filePath, strings.Join(hclBlock.Labels(), "."), moduleDir, possibleTagAttributeNames)
 	}
 	return isTaggable, existingTags, tagsAttributeName
 }

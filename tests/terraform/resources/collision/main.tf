@@ -27,7 +27,7 @@ resource "aws_autoscaling_group" "aurora_cluster_bastion_auto_scaling_group" {
   }
 
   tags = {
-    git_org   = "datadog"
-    git_repo  = "platform"
+    dd_git_org   = "datadog"
+    dd_git_repo  = "platform"
     dd_collision_uuid = "48564943-4cfc-403c-88cd-cbb207e0d33e"
   }

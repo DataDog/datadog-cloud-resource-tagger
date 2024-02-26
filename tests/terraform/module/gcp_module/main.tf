@@ -16,7 +16,7 @@ module "project" {
     git_last_modified_at = "2021-11-03 13:13:21"
     git_last_modified_by = "my-name@my-org.com"
     git_modifiers        = "my-name"
-    git_org              = "my-org"
-    git_repo             = "my-gcp-repo"
+    dd_git_org              = "my-org"
+    dd_git_repo             = "my-gcp-repo"
   }
 }

@@ -5,13 +5,13 @@ resource "aws_instance" "many_instance_tags" {
   {"Owner" = "datadog"
   },
   {"dd_correlation_uuid" = "4329587194",
-    "git_org" = "bana"})
+    "dd_git_org" = "bana"})
 }
 
 resource "aws_alb" "alb_with_merged_tags" {
   tags = merge({"Name" = "tag-for-alb", "Environment" = "prod"},
   {"dd_correlation_uuid" = "4329587194",
-    "git_org" = "bana"})
+    "dd_git_org" = "bana"})
 }
 
 resource "aws_vpc" "vpc_tags_one_line" {
@@ -35,7 +35,7 @@ resource "aws_instance" "instance_merged_var" {
   instance_type = ""
   tags =  merge(var.tags,
   {"dd_correlation_uuid" = "4329587194",
-    "git_org" = "bana"})
+    "dd_git_org" = "bana"})
 }
 
 variable "new_env_tag" {

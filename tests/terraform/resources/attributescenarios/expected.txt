@@ -8,16 +8,16 @@ resource "aws_security_group" "cluster" {
       "Name" = "${var.env}-eks_cluster_sg"
     },
     {
-      git_org  = "datadog"
-      git_repo = "a"
+      dd_git_org  = "datadog"
+      dd_git_repo = "a"
   })
 }
 
 resource "aws_vpc" "vpc_tags_one_line" {
   cidr_block = ""
   tags = { "Name" = "tag-for-s3", "Environment" = "prod"
-    git_org  = "datadog"
-    git_repo = "a"
+    dd_git_org  = "datadog"
+    dd_git_repo = "a"
   }
 }
 
@@ -25,8 +25,8 @@ resource "aws_instance" "no_tags" {
   ami           = "some-ami"
   instance_type = "t3.micro"
   tags = {
-    git_org  = "datadog"
-    git_repo = "a"
+    dd_git_org  = "datadog"
+    dd_git_repo = "a"
   }
 }
 
@@ -35,9 +35,9 @@ resource "aws_instance" "simple_tags" {
   instance_type = "t3.micro"
 
   tags = {
-    Name     = "my-instance"
-    git_org  = "datadog"
-    git_repo = "a"
+    Name        = "my-instance"
+    dd_git_org  = "datadog"
+    dd_git_repo = "a"
   }
 }
 
@@ -46,8 +46,8 @@ resource "aws_instance" "rendered_tags" {
   instance_type = "t3.micro"
 
   tags = merge(var.tags, {
-    git_org  = "datadog"
-    git_repo = "a"
+    dd_git_org  = "datadog"
+    dd_git_repo = "a"
   })
 }
 
@@ -60,8 +60,8 @@ resource "aws_instance" "merge_tags" {
       Name = "merged-tags-instance",
       Env  = var.env
       }, {
-      git_org  = "datadog"
-      git_repo = "a"
+      dd_git_org  = "datadog"
+      dd_git_repo = "a"
   })
 }
 
