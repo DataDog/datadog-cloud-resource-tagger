@@ -643,6 +643,8 @@ func TestTerraformParser_Module(t *testing.T) {
 	})
 
 	t.Run("Test isModuleTaggable on remote modules", func(t *testing.T) {
+		testutils.SkipUnlessEnvFlag(t)
+
 		rootDir := "../../../tests/terraform/module/provider_modules"
 		filePath := "../../../tests/terraform/module/provider_modules/main.tf"
 		originFileBytes, _ := os.ReadFile(filePath)
