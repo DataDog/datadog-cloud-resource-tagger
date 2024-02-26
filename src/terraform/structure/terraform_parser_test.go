@@ -634,7 +634,7 @@ func TestTerraformParser_Module(t *testing.T) {
 			for _, b := range fileBlocks {
 				switch b.GetResourceID() {
 				case "sub_module":
-					assert.False(t, b.IsBlockTaggable())
+					assert.True(t, b.IsBlockTaggable())
 				case "sg":
 					assert.True(t, b.IsBlockTaggable())
 				}
