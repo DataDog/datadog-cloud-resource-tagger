@@ -30,6 +30,18 @@ The following tags are being added for each resource configuration:
 ## CI/CD Integration
 You can use it in your CI/CD using our integration:
 * [GitHub Action](https://github.com/DataDog/datadog-cloud-resource-tagger-action)
+* Gitlab: 
+```
+stages:
+ - datadog-cloud-resource-tagger
+
+run-datadog-cloud-resource-tagger:   
+ stage: datadog-cloud-resource-tagger
+ script:
+   - git checkout ${CI_COMMIT_REF_NAME}
+   - wget -q -O - https://github.com/DataDog/datadog-cloud-resource-tagger/releases/latest/download/datadog-cloud-resource-tagger_Linux_x86_64.tar.gz | tar -xvz -C /tmp
+   - /tmp/datadog-cloud-resource-tagger tag -d <.|directory path> -t dd_git_org,dd_git_repo,dd_git_file,dd_git_modified_commit,dd_git_resource_lines
+```
 
 ## Running locally
 You can brew install the CLI by running the following commands:
