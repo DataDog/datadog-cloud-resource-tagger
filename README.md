@@ -47,9 +47,11 @@ run-datadog-cloud-resource-tagger:
 You can brew install the CLI by running the following commands:
 1. `brew tap datadog/datadog-cloud-resource-tagger https://github.com/DataDog/datadog-cloud-resource-tagger`
 2. `brew install datadog-cloud-resource-tagger`
+You may need to run `sudo launchctl config user path "$(brew --prefix)/bin:${PATH}"` and relaunch your terminal if running on MacOS Mountain Lion or later. See [this](https://docs.brew.sh/FAQ#my-mac-apps-dont-find-homebrew-utilities) for more information.
 
 ## Command flags
 The command to run when invoking the cloud resource tagger is:
+
 `datadog-cloud-resource-tagger tag`
 
 The following flags are available when running:
@@ -59,5 +61,3 @@ The following flags are available when running:
 * --changed-files: only run the tagger on the specified comma separated list of absolute filepaths
 * --include-resource-types: specify the comma separated resource types to tag and skip all others ie `--include-resource-types="aws_s3_bucket,gcp_compute_instance"`
 * --include-providers: specify the comma separated list of providers to tag and skip all others ie `--include-providers="aws,gcp"`
-
-You may need to run `sudo launchctl config user path "$(brew --prefix)/bin:${PATH}"` and relaunch your terminal if running on MacOS Mountain Lion or later. See [this](https://docs.brew.sh/FAQ#my-mac-apps-dont-find-homebrew-utilities) for more information.
