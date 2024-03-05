@@ -47,6 +47,7 @@ run-datadog-cloud-resource-tagger:
 You can brew install the CLI by running the following commands:
 1. `brew tap datadog/datadog-cloud-resource-tagger https://github.com/DataDog/datadog-cloud-resource-tagger`
 2. `brew install datadog-cloud-resource-tagger`
+
 You may need to run `sudo launchctl config user path "$(brew --prefix)/bin:${PATH}"` and relaunch your terminal if running on MacOS Mountain Lion or later. See [this](https://docs.brew.sh/FAQ#my-mac-apps-dont-find-homebrew-utilities) for more information.
 
 ## Command flags
