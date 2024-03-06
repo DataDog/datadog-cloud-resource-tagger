@@ -18,6 +18,6 @@ module "complete_sg" {
     dd_git_repo               = "datadog-cloud-resource-tagger"
     dd_git_repo_url           = "git@github.com:DataDog/datadog-cloud-resource-tagger"
     dd_git_resource_lines     = "1:8"
-    dd_git_resource_signature = "complete_sg"
+    dd_git_resource_signature = "module.complete_sg"
   }
 }
