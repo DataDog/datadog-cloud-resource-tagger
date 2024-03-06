@@ -12,7 +12,7 @@ module "complete_sg" {
     dd_git_file               = "src/terraform/structure/main_tagged.tf"
     dd_git_last_modified_at   = "2024-01-29 20:11:37"
     dd_git_last_modified_by   = "bahar.shah@datadoghq.com"
-    dd_git_modified_commit    = "32a26408b842481356bbcc06a5be6c52da2ad2f1"
+    dd_git_modified_commit    = "1cc401e76cb7fea95c144e804eaf06a191eb5311"
     dd_git_modifiers          = "bahar.shah"
     dd_git_org                = "DataDog"
     dd_git_repo               = "datadog-cloud-resource-tagger"

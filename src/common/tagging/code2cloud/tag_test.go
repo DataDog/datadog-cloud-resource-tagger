@@ -10,7 +10,7 @@ import (
 )
 
 func TestTagCreation(t *testing.T) {
-	t.Run("ResourceSignatureTagCreation", func(t *testing.T) {
+	t.Run("ResourceSignatureTagCreationModule", func(t *testing.T) {
 		p := &tfStructure.TerraformParser{}
 		p.Init("../../../../src/terraform/structure/", nil)
 		defer p.Close()
@@ -25,6 +25,24 @@ func TestTagCreation(t *testing.T) {
 			valueTag := EvaluateTag(t, &tag, block)
 			assert.Equal(t, "dd_git_resource_signature", valueTag.GetKey())
 			assert.Equal(t, "module.complete_sg", valueTag.GetValue())
+		}
+
+	})
+	t.Run("ResourceSignatureTagCreationResource", func(t *testing.T) {
+		p := &tfStructure.TerraformParser{}
+		p.Init("../../../../src/terraform/structure/", nil)
+		defer p.Close()
+		filePath := "../../../../src/terraform/structure/main_resource_tagged.tf"
+
+		parsedBlocks, err := p.ParseFile(filePath)
+		if err != nil {
+			t.Errorf("failed to read hcl file because %s", err)
+		}
+		for _, block := range parsedBlocks {
+			tag := ResourceSignatureTag{}
+			valueTag := EvaluateTag(t, &tag, block)
+			assert.Equal(t, "dd_git_resource_signature", valueTag.GetKey())
+			assert.Equal(t, "resource.aws_iam_role.iam_for_eks", valueTag.GetValue())
 		}
 
 	})
