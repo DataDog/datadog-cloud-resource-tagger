@@ -16,13 +16,14 @@ The following tags are being added for each resource configuration:
 * **dd_git_repo**: repository
 * **dd_git_file**: filepath
 * **dd_git_modified_commit**: commit id of last commit 
-* **dd_git_resource_lines**: lines in the code matching the resource definition
+* **dd_git_resource_signature**: resource signature from Terraform
 <u>These are the remaining set of tags it is possible for us to collect:</u>
 * **dd_correlation_uuid**: a tag to enable attribution between an IaC resource block and a running cloud resource
+* **dd_git_resource_lines**: lines in the code matching the resource definition
 * **dd_git_repo_url**: repository url
 * **dd_git_modifiers**: users who modified the resource 
 * **dd_git_created_by**: created by (user's email of the first commit)
-* **dd_git_create_commit**: created at (date of the first commit)
+* **dd_git_created_at**: created at (date of the first commit)
 * **dd_git_create_commit**: commit id of the first commit
 * **dd_git_last_modified_by**: last modified by (user's email of the last commit)
 * **dd_git_last_modified_at**: last modified at (date of the last commit)
@@ -40,7 +41,7 @@ run-datadog-cloud-resource-tagger:
  script:
    - git checkout ${CI_COMMIT_REF_NAME}
    - wget -q -O - https://github.com/DataDog/datadog-cloud-resource-tagger/releases/latest/download/datadog-cloud-resource-tagger_Linux_x86_64.tar.gz | tar -xvz -C /tmp
-   - /tmp/datadog-cloud-resource-tagger tag -d <.|directory path> -t dd_git_org,dd_git_repo,dd_git_file,dd_git_modified_commit,dd_git_resource_lines
+   - /tmp/datadog-cloud-resource-tagger tag -d <.|directory path> -t <specific tags to collect if different than default>
 ```
 
 ## Running locally
@@ -57,7 +58,7 @@ The command to run when invoking the cloud resource tagger is:
 
 The following flags are available when running:
 * --directory (alias -d): specify the directory to scope tagging over. By default will use `.` if no value is provided (ie tag everything)
-* --tags (alias -t): specify the exact list of tags to add. By default will apply the entire list of tags specified above if no value provided. To scope to the minimum ones needed use the following argument:`-t "dd_git_org,dd_git_repo,dd_git_file,dd_git_modified_commit,dd_git_resource_lines"`
+* --tags (alias -t): specify the exact list of tags to add. By default will scope to the minimum list of tags specified above if no value provided. To scope to any others use the following flag. Note you will need to specify ALL tags you want including those in the default minimum set:`-t "dd_git_org,dd_git_repo,dd_git_file,dd_git_modified_commit,dd_git_resource_signature,dd_git_resource_lines,dd_git_created_by,dd_git_created_at"`
 * --tag-groups (alias -g): specify the tag groups to generate tags from. By default we will use `"git,code2cloud"`.
 * --changed-files: only run the tagger on the specified comma separated list of absolute filepaths
 * --include-resource-types: specify the comma separated resource types to tag and skip all others ie `--include-resource-types="aws_s3_bucket,gcp_compute_instance"`

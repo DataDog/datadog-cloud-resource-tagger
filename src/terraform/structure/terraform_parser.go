@@ -500,6 +500,7 @@ func (p *TerraformParser) parseBlock(hclBlock *hclwrite.Block, filePath string) 
 			IsTaggable:        isTaggable,
 			TagsAttributeName: tagsAttributeName,
 			Type:              resourceType,
+			RawBlock:          hclBlock,
 		},
 	}
 

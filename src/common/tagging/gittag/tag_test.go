@@ -156,7 +156,7 @@ func EvaluateTag(t *testing.T, tag tags.ITag, blame gitservice.GitBlame) tags.IT
 	tag.Init()
 	newTag, err := tag.CalculateValue(&blame)
 	if err != nil {
-		assert.Fail(t, "Failed to generate BC trace", err)
+		assert.Fail(t, "Failed to evaluate tag", err)
 	}
 	assert.Equal(t, "", tag.GetValue())
 	assert.IsType(t, &tags.Tag{}, newTag)
@@ -169,7 +169,7 @@ func EvaluateTagWithPrefix(t *testing.T, tag tags.ITag, blame gitservice.GitBlam
 	tag.SetTagPrefix(tagPrefix)
 	newTag, err := tag.CalculateValue(&blame)
 	if err != nil {
-		assert.Fail(t, "Failed to generate BC trace", err)
+		assert.Fail(t, "Failed to evaluate tag with prefix", err)
 	}
 	assert.Equal(t, "", tag.GetValue())
 	assert.IsType(t, &tags.Tag{}, newTag)

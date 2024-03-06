@@ -23,12 +23,13 @@ func (t *TagGroup) InitTagGroup(_ string, skippedTags []string, explicitlySpecif
 	}
 	t.SkippedTags = skippedTags
 	t.SpecifiedTags = explicitlySpecifiedTags
-	t.SetTags([]tags.ITag{&TraceTag{}})
+	t.SetTags([]tags.ITag{&TraceTag{}, &ResourceSignatureTag{}})
 }
 
 func (t *TagGroup) GetDefaultTags() []tags.ITag {
 	return []tags.ITag{
 		&TraceTag{},
+		&ResourceSignatureTag{},
 	}
 }
 
