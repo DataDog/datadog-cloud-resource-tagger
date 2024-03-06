@@ -32,7 +32,6 @@ func (t *ResourceSignatureTag) CalculateValue(data interface{}) (tags.ITag, erro
 	}
 
 	resourceSignature := hclBlock.Type() + "." + block.GetResourceID()
-	fmt.Printf("ResourceSignatureTag: %v\n", resourceSignature)
 	return &tags.Tag{Key: t.Key, Value: resourceSignature}, nil
 }
 
