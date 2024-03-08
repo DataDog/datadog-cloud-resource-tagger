@@ -110,6 +110,18 @@ func (r *Runner) TagChangedFiles() (*reports.ReportService, error) {
 		parser.Close()
 	}
 
+	if !r.dryRun {
+		// we want to commit the changes from the tagger
+		gitService, err := gitservice.NewGitService(r.dir)
+		if err != nil {
+			logger.Error(fmt.Sprintf("Failed to initialize git service for path \"%s\".Err: %s", r.dir, err))
+		}
+		err = gitService.CommitChanges(r.dir)
+		if err != nil {
+			logger.Error(fmt.Sprintf("Failed to commit changes to git for path \"%s\".Err: %s", r.dir, err))
+		}
+	}
+
 	return r.reportingService, nil
 }
 
