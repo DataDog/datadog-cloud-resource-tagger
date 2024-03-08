@@ -15,7 +15,6 @@ The following tags are being added for each resource configuration:
 * **dd_git_org**: organization 
 * **dd_git_repo**: repository
 * **dd_git_file**: filepath
-* **dd_git_modified_commit**: commit id of last commit 
 * **dd_git_resource_signature**: resource signature from Terraform
 <u>These are the remaining set of tags it is possible for us to collect:</u>
 * **dd_correlation_uuid**: a tag to enable attribution between an IaC resource block and a running cloud resource
@@ -27,6 +26,7 @@ The following tags are being added for each resource configuration:
 * **dd_git_create_commit**: commit id of the first commit
 * **dd_git_last_modified_by**: last modified by (user's email of the last commit)
 * **dd_git_last_modified_at**: last modified at (date of the last commit)
+* **dd_git_modified_commit**: commit id of last commit 
 
 ## CI/CD Integration
 You can use it in your CI/CD using our integration:
