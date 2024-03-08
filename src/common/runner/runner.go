@@ -14,6 +14,7 @@ import (
 
 	"github.com/Datadog/cloud-resource-tagger/src/common"
 	"github.com/Datadog/cloud-resource-tagger/src/common/clioptions"
+	"github.com/Datadog/cloud-resource-tagger/src/common/gitservice"
 	"github.com/Datadog/cloud-resource-tagger/src/common/logger"
 	"github.com/Datadog/cloud-resource-tagger/src/common/reports"
 	"github.com/Datadog/cloud-resource-tagger/src/common/tagging"
@@ -109,6 +110,18 @@ func (r *Runner) TagChangedFiles() (*reports.ReportService, error) {
 		parser.Close()
 	}
 
+	if !r.dryRun {
+		// we want to commit the changes from the tagger
+		gitService, err := gitservice.NewGitService(r.dir)
+		if err != nil {
+			logger.Error(fmt.Sprintf("Failed to initialize git service for path \"%s\".Err: %s", r.dir, err))
+		}
+		err = gitService.CommitChanges(r.dir)
+		if err != nil {
+			logger.Error(fmt.Sprintf("Failed to commit changes to git for path \"%s\".Err: %s", r.dir, err))
+		}
+	}
+
 	return r.reportingService, nil
 }
 
@@ -145,6 +158,18 @@ func (r *Runner) TagDirectory() (*reports.ReportService, error) {
 
 	for _, parser := range r.parsers {
 		parser.Close()
+	}
+
+	if !r.dryRun {
+		// we want to commit the changes from the tagger
+		gitService, err := gitservice.NewGitService(r.dir)
+		if err != nil {
+			logger.Error(fmt.Sprintf("Failed to initialize git service for path \"%s\".Err: %s", r.dir, err))
+		}
+		err = gitService.CommitChanges(r.dir)
+		if err != nil {
+			logger.Error(fmt.Sprintf("Failed to commit changes to git for path \"%s\".Err: %s", r.dir, err))
+		}
 	}
 
 	return r.reportingService, nil
@@ -235,7 +260,7 @@ func (r *Runner) TagFile(file string) {
 			}
 			r.ChangeAccumulator.AccumulateChanges(block)
 		}
-		if isFileTaggable && !r.dryRun {
+		if isFileTaggable {
 			err = parser.WriteFile(file, blocks, file)
 			if err != nil {
 				logger.Warning(fmt.Sprintf("Failed writing tags to file %s, because %v", file, err))

@@ -86,7 +86,7 @@ func tagCommand() *cli.Command {
 				Name:        tagArg,
 				Aliases:     []string{"t"},
 				Usage:       "run only with the specified tags",
-				DefaultText: "dd_git_org,dd_git_repo,dd_git_file,dd_git_modified_commit,dd_git_resource_signature",
+				DefaultText: "dd_git_org,dd_git_repo,dd_git_file,dd_git_resource_signature",
 				Value:       cli.NewStringSlice(gittag.GetMinimumDefaultGitTags()...),
 			},
 			&cli.StringFlag{
@@ -123,6 +123,12 @@ func tagCommand() *cli.Command {
 				Usage:       "only include these providers for tagging",
 				Value:       cli.NewStringSlice(),
 				DefaultText: "aws,gcp",
+			},
+			&cli.BoolFlag{
+				Name:        dryRunArgs,
+				Usage:       "skip persisting resource tagging",
+				Value:       false,
+				DefaultText: "false",
 			},
 		},
 	}
