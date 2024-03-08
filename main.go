@@ -124,6 +124,12 @@ func tagCommand() *cli.Command {
 				Value:       cli.NewStringSlice(),
 				DefaultText: "aws,gcp",
 			},
+			&cli.BoolFlag{
+				Name:        dryRunArgs,
+				Usage:       "skip persisting resource tagging",
+				Value:       false,
+				DefaultText: "false",
+			},
 		},
 	}
 }

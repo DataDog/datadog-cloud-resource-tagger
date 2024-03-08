@@ -13,6 +13,7 @@ import (
 	"path/filepath"
 	"strings"
 	"sync"
+	"time"
 
 	"github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing/object"
@@ -146,6 +147,43 @@ func (g *GitService) GetOrganization() string {
 
 func (g *GitService) GetRepoName() string {
 	return g.repoName
+}
+
+func (g *GitService) CommitChanges(filePath string) error {
+	gitGraphLock.Lock() // Git is a graph, different files can lead to graph scans interfering with each other
+	defer gitGraphLock.Unlock()
+	w, err := g.repository.Worktree()
+	if err != nil {
+		return fmt.Errorf("failed to get repository worktree for file %s because of error %s", filePath, err)
+	}
+
+	status, err := w.Status()
+	if err != nil {
+		return err
+	}
+
+	if status.IsClean() {
+		return nil
+	}
+
+	for path, _ := range status {
+		_, err := w.Add(path)
+		if err != nil {
+			return fmt.Errorf("failed to add file %s to git index because of error %s", path, err)
+		}
+	}
+
+	_, err = w.Commit("Adding tags from datadog-cloud-resource-tagger", &git.CommitOptions{
+		Author: &object.Signature{
+			Name:  "Datadog Cloud Resource Tagger",
+			Email: g.currentUserEmail,
+			When:  time.Now(),
+		},
+	})
+	if err != nil {
+		return fmt.Errorf("failed to commit changes for file %s because of error %s", filePath, err)
+	}
+	return nil
 }
 
 func (g *GitService) GetFileBlame(filePath string) (*git.BlameResult, error) {
