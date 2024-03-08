@@ -7,17 +7,5 @@ module "complete_sg" {
   ingress_rules       = ["https-443-tcp"]
   tags = {
     dd_git_create_commit      = "6028228c8899b558e9e8e9c2dd29c6a05c3667a7"
-    dd_git_created_at         = "2024-01-29 20:11:37"
-    dd_git_created_by         = "bahar.shah@datadoghq.com"
-    dd_git_file               = "src/terraform/structure/main_tagged.tf"
-    dd_git_last_modified_at   = "2024-01-29 20:11:37"
-    dd_git_last_modified_by   = "bahar.shah@datadoghq.com"
-    dd_git_modified_commit    = "1cc401e76cb7fea95c144e804eaf06a191eb5311"
-    dd_git_modifiers          = "bahar.shah"
-    dd_git_org                = "DataDog"
-    dd_git_repo               = "datadog-cloud-resource-tagger"
-    dd_git_repo_url           = "git@github.com:DataDog/datadog-cloud-resource-tagger"
-    dd_git_resource_lines     = "1:8"
-    dd_git_resource_signature = "module.complete_sg"
   }
 }
