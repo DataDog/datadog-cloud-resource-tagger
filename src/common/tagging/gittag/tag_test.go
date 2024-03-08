@@ -42,7 +42,7 @@ func TestTagCreation(t *testing.T) {
 		tag := GitFileTag{}
 		valueTag := EvaluateTag(t, &tag, blame)
 		assert.Equal(t, valueTag.GetKey(), "dd_git_file")
-		assert.Equal(t, blameutils.FilePath, valueTag.GetValue())
+		assert.Equal(t, blameutils.AbsoluteFilePath, valueTag.GetValue())
 	})
 
 	t.Run("GitCommitTagCreation", func(t *testing.T) {
@@ -107,7 +107,7 @@ func TestTagCreationWithPrefix(t *testing.T) {
 		tag := GitFileTag{}
 		valueTag := EvaluateTagWithPrefix(t, &tag, blame, "prefix_")
 		assert.Equal(t, "prefix_dd_git_file", valueTag.GetKey())
-		assert.Equal(t, blameutils.FilePath, valueTag.GetValue())
+		assert.Equal(t, blameutils.AbsoluteFilePath, valueTag.GetValue())
 	})
 
 	t.Run("GitCommitTagCreation", func(t *testing.T) {

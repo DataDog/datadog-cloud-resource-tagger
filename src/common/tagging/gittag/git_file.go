@@ -25,7 +25,8 @@ func (t *GitFileTag) CalculateValue(data interface{}) (tags.ITag, error) {
 	if !ok {
 		return nil, fmt.Errorf("failed to convert data to *GitBlame, which is required to calculte tag value. Type of data: %s", reflect.TypeOf(data))
 	}
-	return &tags.Tag{Key: t.Key, Value: gitBlame.FilePath}, nil
+	fmt.Println("GitFileTag: ", gitBlame.AbsoluteFilePath)
+	return &tags.Tag{Key: t.Key, Value: gitBlame.AbsoluteFilePath}, nil
 }
 
 func (t *GitFileTag) GetDescription() string {

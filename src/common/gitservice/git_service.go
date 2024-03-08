@@ -166,7 +166,7 @@ func (g *GitService) CommitChanges(filePath string) error {
 		return nil
 	}
 
-	for path, _ := range status {
+	for path := range status {
 		_, err := w.Add(path)
 		if err != nil {
 			return fmt.Errorf("failed to add file %s to git index because of error %s", path, err)
