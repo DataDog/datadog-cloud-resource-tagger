@@ -43,9 +43,7 @@ func NewGitService(rootDir string) (*GitService, error) {
 	var err error
 	rootDirIter, _ := filepath.Abs(rootDir)
 	for {
-		baseDir, _ := filepath.Abs(".")
-		repository, err = git.PlainOpen(baseDir)
-		fmt.Println(repository)
+		repository, err = git.PlainOpen(rootDirIter)
 		if err == nil {
 			break
 		}

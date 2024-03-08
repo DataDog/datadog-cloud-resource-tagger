@@ -3,7 +3,11 @@ resource aws_iam_role "iam_for_eks" {
   assume_role_policy = data.aws_iam_policy_document.iam_policy_eks.json
 
   tags = {
+<<<<<<< HEAD
     team = "test"
+=======
+    team                      = "test"
+>>>>>>> 0ef9392 (working)
     dd_git_resource_signature = "resource.aws_iam_role.iam_for_eks"
     dd_git_file               = "src/terraform/structure/main_resource_tagged.tf"
     dd_git_modified_commit    = "1cc401e76cb7fea95c144e804eaf06a191eb5311"
