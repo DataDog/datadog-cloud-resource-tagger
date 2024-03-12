@@ -11,11 +11,14 @@ The project is based on the [Yor project by bridgecrew](https://github.com/bridg
 Each Terraform file (based on file extension - *.tf) is parsed and processed into a set of blocks.
 Each one of these blocks are later tagged with a set of attributes.
 The following tags are being added for each resource configuration:
+
 <u>These are the minimum set of tags we look to collect:</u>
 * **dd_git_org**: organization 
 * **dd_git_repo**: repository
 * **dd_git_file**: filepath
 * **dd_git_resource_signature**: resource signature from Terraform
+
+  
 <u>These are the remaining set of tags it is possible for us to collect:</u>
 * **dd_correlation_uuid**: a tag to enable attribution between an IaC resource block and a running cloud resource
 * **dd_git_resource_lines**: lines in the code matching the resource definition
