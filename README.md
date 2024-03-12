@@ -58,7 +58,7 @@ You can brew install the CLI by running the following commands:
 
 You may need to run `sudo launchctl config user path "$(brew --prefix)/bin:${PATH}"` and relaunch your terminal if running on MacOS Mountain Lion or later. See [this](https://docs.brew.sh/FAQ#my-mac-apps-dont-find-homebrew-utilities) for more information.
 
-### Curl Install (MacOS, Windoows, Linux)
+### Curl Install (MacOS, Windows, Linux)
 `curl -s -L https://github.com/DataDog/datadog-cloud-resource-tagger/releases/latest/download/<ASSET_PATH> | tar xvz - -C .`
 
 For the `<ASSET_PATH>` please refer to this table for the correct value to specify:
