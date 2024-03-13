@@ -86,13 +86,21 @@ func (t *TagGroup) CreateTagsForBlock(block structure.IBlock) error {
 
 	blame, err := t.GitService.GetBlameForFileLines(block.GetFilePath(), linesInGit)
 
-	if err != nil {
+	if err != nil || blame == nil {
 		logger.Warning(fmt.Sprintf("Failed to tag %v with git tags, err: %v", block.GetResourceID(), err.Error()))
-		return nil
-	}
-	if blame == nil {
-		logger.Warning(fmt.Sprintf("Failed to tag %s with git tags, file must be unstaged", block.GetFilePath()))
-		return nil
+		if blame == nil {
+			logger.Warning(fmt.Sprintf("Failed to tag %s with git tags, file must be unstaged", block.GetFilePath()))
+		}
+		relativeFilePath := t.GitService.ComputeRelativeFilePath(block.GetFilePath())
+		org := t.GitService.GetOrganization()
+		repo := t.GitService.GetRepoName()
+		blame = &gitservice.GitBlame{
+			GitOrg:           org,
+			GitRepository:    repo,
+			GitRepositoryUrl: fmt.Sprintf("git@github.com:%s/%s", org, repo),
+			FilePath:         relativeFilePath,
+			AbsoluteFilePath: block.GetFilePath(),
+		}
 	}
 
 	if !t.hasNonTagChanges(blame, block) {
