@@ -54,6 +54,7 @@ func NewGitService(rootDir string) (*GitService, error) {
 		rootDirIter = newRootDir
 	}
 	if err != nil {
+		logger.Error("Error trying to open git repository: %v", err.Error())
 		return nil, err
 	}
 
