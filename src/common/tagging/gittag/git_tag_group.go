@@ -80,9 +80,6 @@ func (t *TagGroup) initFileMapping(path string) fileLineMapper {
 func (t *TagGroup) CreateTagsForBlock(block structure.IBlock) error {
 	fileLinesMap := t.initFileMapping(block.GetFilePath())
 	linesInGit := t.getBlockLinesInGit(block, fileLinesMap)
-	if linesInGit.Start < 0 || linesInGit.End < 0 {
-		return nil
-	}
 
 	blame, err := t.GitService.GetBlameForFileLines(block.GetFilePath(), linesInGit)
 
