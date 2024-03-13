@@ -126,6 +126,11 @@ func (r *Runner) TagChangedFiles() (*reports.ReportService, error) {
 		if err != nil {
 			logger.Error(fmt.Sprintf("Failed to commit changes to git for path \"%s\".Err: %s", r.dir, err))
 		}
+		cmd = exec.Command("git", "push")
+		err = cmd.Run()
+		if err != nil {
+			logger.Error(fmt.Sprintf("Failed to push changes to git for path \"%s\".Err: %s", r.dir, err))
+		}
 	}
 
 	return r.reportingService, nil
