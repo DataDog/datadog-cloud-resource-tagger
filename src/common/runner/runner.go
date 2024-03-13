@@ -7,6 +7,7 @@ package runner
 import (
 	"fmt"
 	"os"
+	exec "os/exec"
 	"path/filepath"
 	"reflect"
 	"strings"
@@ -112,11 +113,16 @@ func (r *Runner) TagChangedFiles() (*reports.ReportService, error) {
 
 	if !r.dryRun {
 		// we want to commit the changes from the tagger
-		gitService, err := gitservice.NewGitService(r.dir)
-		if err != nil {
-			logger.Error(fmt.Sprintf("Failed to initialize git service for path \"%s\".Err: %s", r.dir, err))
-		}
-		err = gitService.CommitChanges(r.dir)
+		// gitService, err := gitservice.NewGitService(r.dir)
+		// if err != nil {
+		// 	logger.Error(fmt.Sprintf("Failed to initialize git service for path \"%s\".Err: %s", r.dir, err))
+		// }
+		// err = gitService.CommitChanges(r.dir)
+		// if err != nil {
+		// 	logger.Error(fmt.Sprintf("Failed to commit changes to git for path \"%s\".Err: %s", r.dir, err))
+		// }
+		cmd := exec.Command("git", "-C", r.dir, "commit", "-m", "Adding tags from datadog-cloud-resource-tagger")
+		err := cmd.Run()
 		if err != nil {
 			logger.Error(fmt.Sprintf("Failed to commit changes to git for path \"%s\".Err: %s", r.dir, err))
 		}
@@ -170,7 +176,7 @@ func (r *Runner) TagDirectory() (*reports.ReportService, error) {
 		if err != nil {
 			logger.Error(fmt.Sprintf("Failed to commit changes to git for path \"%s\".Err: %s", r.dir, err))
 		}
-		logger.Info(fmt.Sprintf("Committed changes to git for path \"%s\"", r.dir))
+		logger.Warning(fmt.Sprintf("Committed changes to git for path \"%s\"", r.dir))
 	}
 
 	return r.reportingService, nil
