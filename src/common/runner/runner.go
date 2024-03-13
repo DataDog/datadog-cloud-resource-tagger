@@ -170,6 +170,7 @@ func (r *Runner) TagDirectory() (*reports.ReportService, error) {
 		if err != nil {
 			logger.Error(fmt.Sprintf("Failed to commit changes to git for path \"%s\".Err: %s", r.dir, err))
 		}
+		logger.Info(fmt.Sprintf("Committed changes to git for path \"%s\"", r.dir))
 	}
 
 	return r.reportingService, nil
