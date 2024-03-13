@@ -6,4 +6,10 @@ data "aws_s3_bucket" "primary" {
 resource "aws_s3_bucket" "primary" {
   count  = var.create_bucket == true ? 1 : 0
   bucket = "cloud-resource-tagger-bug-test-bucket"
+  tags = {
+    dd_git_file               = "tests/terraform/data/main.tf"
+    dd_git_org                = "DataDog"
+    dd_git_repo               = "datadog-cloud-resource-tagger"
+    dd_git_resource_signature = "resource.aws_s3_bucket.primary"
+  }
 }
