@@ -101,6 +101,8 @@ func (t *TagGroup) CreateTagsForBlock(block structure.IBlock) error {
 			FilePath:         relativeFilePath,
 			AbsoluteFilePath: block.GetFilePath(),
 		}
+		logger.Info(fmt.Sprintf("Created manual git blame for %s", block.GetFilePath()))
+		fmt.Printf("Created manual blame: %v\n", blame)
 	}
 
 	if !t.hasNonTagChanges(blame, block) {
