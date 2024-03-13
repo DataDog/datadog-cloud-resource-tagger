@@ -54,6 +54,7 @@ func NewGitService(rootDir string) (*GitService, error) {
 		rootDirIter = newRootDir
 	}
 	if err != nil {
+		logger.Error("Error trying to open git repository: %v", err.Error())
 		return nil, err
 	}
 
@@ -68,6 +69,9 @@ func NewGitService(rootDir string) (*GitService, error) {
 		PreviousBlameByFile: &sync.Map{},
 	}
 	err = gitService.setOrgAndName()
+	if err != nil {
+		logger.Error("Error trying to set org and name: %v", err.Error())
+	}
 	gitService.currentUserEmail = GetGitUserEmail()
 
 	return &gitService, err
