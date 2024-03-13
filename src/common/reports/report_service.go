@@ -28,12 +28,11 @@ type ReportSummary struct {
 }
 
 type TagRecord struct {
-	File             string `json:"file"`
-	ResourceID       string `json:"resourceId"`
-	TagKey           string `json:"key"`
-	OldValue         string `json:"oldValue"`
-	UpdatedValue     string `json:"updatedValue"`
-	IacTaggerTraceID string `json:"tagTraceId"`
+	File         string `json:"file"`
+	ResourceID   string `json:"resourceId"`
+	TagKey       string `json:"key"`
+	OldValue     string `json:"oldValue"`
+	UpdatedValue string `json:"updatedValue"`
 }
 
 type Report struct {
@@ -79,12 +78,11 @@ func (r *ReportService) CreateReport() *Report {
 	for _, block := range changesAccumulator.NewBlockTraces {
 		for _, tag := range block.GetNewTags() {
 			r.report.NewResourceTags = append(r.report.NewResourceTags, TagRecord{
-				File:             block.GetFilePath(),
-				ResourceID:       block.GetResourceID(),
-				TagKey:           tag.GetKey(),
-				OldValue:         "",
-				UpdatedValue:     tag.GetValue(),
-				IacTaggerTraceID: block.GetTraceID(),
+				File:         block.GetFilePath(),
+				ResourceID:   block.GetResourceID(),
+				TagKey:       tag.GetKey(),
+				OldValue:     "",
+				UpdatedValue: tag.GetValue(),
 			})
 		}
 	}
@@ -97,12 +95,11 @@ func (r *ReportService) CreateReport() *Report {
 		})
 		for _, val := range diff.Added {
 			r.report.UpdatedResourceTags = append(r.report.UpdatedResourceTags, TagRecord{
-				File:             block.GetFilePath(),
-				ResourceID:       block.GetResourceID(),
-				TagKey:           val.GetKey(),
-				OldValue:         "",
-				UpdatedValue:     val.GetValue(),
-				IacTaggerTraceID: block.GetTraceID(),
+				File:         block.GetFilePath(),
+				ResourceID:   block.GetResourceID(),
+				TagKey:       val.GetKey(),
+				OldValue:     "",
+				UpdatedValue: val.GetValue(),
 			})
 		}
 
@@ -111,12 +108,11 @@ func (r *ReportService) CreateReport() *Report {
 		})
 		for _, val := range diff.Updated {
 			r.report.UpdatedResourceTags = append(r.report.UpdatedResourceTags, TagRecord{
-				File:             block.GetFilePath(),
-				ResourceID:       block.GetResourceID(),
-				TagKey:           val.Key,
-				OldValue:         val.PrevValue,
-				UpdatedValue:     val.NewValue,
-				IacTaggerTraceID: block.GetTraceID(),
+				File:         block.GetFilePath(),
+				ResourceID:   block.GetResourceID(),
+				TagKey:       val.Key,
+				OldValue:     val.PrevValue,
+				UpdatedValue: val.NewValue,
 			})
 		}
 	}
@@ -152,21 +148,20 @@ func PrintBanner() {
 func (r *ReportService) printUpdatedResourcesToStdout() {
 	fmt.Printf("Updated Resource Traces (%v):\n", r.report.Summary.UpdatedResources)
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"File", "Resource", "Tag Key", "Old Value", "Updated Value", "IacTagger ID"})
+	table.SetHeader([]string{"File", "Resource", "Tag Key", "Old Value", "Updated Value"})
 	table.SetColumnColor(
 		tablewriter.Colors{},
 		tablewriter.Colors{},
 		tablewriter.Colors{tablewriter.Bold},
 		tablewriter.Colors{tablewriter.Normal, tablewriter.FgRedColor},
 		tablewriter.Colors{tablewriter.Normal, tablewriter.FgGreenColor},
-		tablewriter.Colors{},
 	)
 
 	table.SetRowLine(true)
 	table.SetRowSeparator("-")
 
 	for _, tr := range r.report.UpdatedResourceTags {
-		table.Append([]string{tr.File, tr.ResourceID, tr.TagKey, tr.OldValue, tr.UpdatedValue, tr.IacTaggerTraceID})
+		table.Append([]string{tr.File, tr.ResourceID, tr.TagKey, tr.OldValue, tr.UpdatedValue})
 	}
 	table.SetAutoMergeCellsByColumnIndex([]int{0, 1, 5})
 	table.Render()
@@ -175,7 +170,7 @@ func (r *ReportService) printUpdatedResourcesToStdout() {
 func (r *ReportService) printNewResourcesToStdout() {
 	fmt.Printf("New Resources Traced (%v):\n", r.report.Summary.NewResources)
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"File", "Resource", "Tag Key", "Tag Value", "IacTagger ID"})
+	table.SetHeader([]string{"File", "Resource", "Tag Key", "Tag Value"})
 	table.SetRowLine(true)
 	table.SetRowSeparator("-")
 	table.SetColumnColor(
@@ -183,10 +178,9 @@ func (r *ReportService) printNewResourcesToStdout() {
 		tablewriter.Colors{},
 		tablewriter.Colors{tablewriter.Bold},
 		tablewriter.Colors{tablewriter.Normal, tablewriter.FgGreenColor},
-		tablewriter.Colors{},
 	)
 	for _, tr := range r.report.NewResourceTags {
-		table.Append([]string{tr.File, tr.ResourceID, tr.TagKey, tr.UpdatedValue, tr.IacTaggerTraceID})
+		table.Append([]string{tr.File, tr.ResourceID, tr.TagKey, tr.UpdatedValue})
 	}
 	table.SetAutoMergeCellsByColumnIndex([]int{0, 1, 4})
 	table.Render()
