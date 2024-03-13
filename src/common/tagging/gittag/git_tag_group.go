@@ -86,22 +86,22 @@ func (t *TagGroup) CreateTagsForBlock(block structure.IBlock) error {
 	if err != nil || blame == nil {
 		logger.Warning(fmt.Sprintf("Failed to tag %v with git tags, err: %v", block.GetResourceID(), err.Error()))
 
-		relativeFilePath := t.GitService.ComputeRelativeFilePath(block.GetFilePath())
 		org := t.GitService.GetOrganization()
 		repo := t.GitService.GetRepoName()
 		blame = &gitservice.GitBlame{
 			GitOrg:           org,
 			GitRepository:    repo,
 			GitRepositoryUrl: fmt.Sprintf("git@github.com:%s/%s", org, repo),
-			FilePath:         relativeFilePath,
+			FilePath:         block.GetFilePath(),
 			AbsoluteFilePath: block.GetFilePath(),
 		}
-		logger.Info(fmt.Sprintf("Created manual git blame for %s", block.GetFilePath()))
+		logger.Warning(fmt.Sprintf("Created manual git blame for %s", block.GetFilePath()))
 	}
 
-	if !t.hasNonTagChanges(blame, block) {
-		return nil
-	}
+	// if !t.hasNonTagChanges(blame, block) {
+	// 	return nil
+	// }
+
 	err = t.UpdateBlockTags(block, blame)
 	if err != nil {
 		return err
