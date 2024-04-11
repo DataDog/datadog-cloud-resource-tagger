@@ -122,10 +122,11 @@ func (r *Runner) TagChangedFiles() (*reports.ReportService, error) {
 		// if err != nil {
 		// 	logger.Error(fmt.Sprintf("Failed to commit changes to git for path \"%s\".Err: %s", r.dir, err))
 		// }
-		cmd := exec.Command("git", "-C", r.dir, "commit", "-m", "Adding tags from datadog-cloud-resource-tagger")
+		dir := utils.DetermineTopLevelDirectory(r.changedFiles)
+		cmd := exec.Command("git", "-C", dir, "commit", "-m", "Adding tags from datadog-cloud-resource-tagger")
 		err := cmd.Run()
 		if err != nil {
-			logger.Error(fmt.Sprintf("Failed to commit changes to git for path \"%s\".Err: %s", r.dir, err))
+			logger.Error(fmt.Sprintf("Failed to commit changes to git for path \"%s\".Err: %s", dir, err))
 		}
 		cmd = exec.Command("git", "push")
 		err = cmd.Run()
