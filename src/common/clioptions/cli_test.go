@@ -20,7 +20,7 @@ func TestCliArgParsing(t *testing.T) {
 			SkipTags:       nil,
 			Output:         "cli",
 			OutputJSONFile: "",
-			DryRun:         true,
+			DryRun:         "true",
 		}
 		// Expect the validation to pass without throwing errors
 		options.Validate()
@@ -32,7 +32,7 @@ func TestCliArgParsing(t *testing.T) {
 			SkipTags:       nil,
 			Output:         "cli",
 			OutputJSONFile: "",
-			DryRun:         true,
+			DryRun:         "true",
 		}
 		// Expect the validation to pass without throwing errors
 		options.Validate()
@@ -45,7 +45,7 @@ func TestCliArgParsing(t *testing.T) {
 			SkipTags:       nil,
 			Output:         "cli",
 			OutputJSONFile: "",
-			DryRun:         true,
+			DryRun:         "true",
 		}
 		// Expect the validation to pass without throwing errors
 		options.Validate()
@@ -112,7 +112,7 @@ func TestOutputCrasher(t *testing.T) {
 			Output:         "junitxml",
 			OutputJSONFile: "",
 			TagGroups:      []string{"git", "custom"},
-			DryRun:         true,
+			DryRun:         "true",
 		}
 		options.Validate()
 	}
@@ -127,7 +127,7 @@ func TestTagGroupCrasher(t *testing.T) {
 			Output:         "cli",
 			OutputJSONFile: "",
 			TagGroups:      []string{"git", "custom"},
-			DryRun:         true,
+			DryRun:         "true",
 		}
 		options.Validate()
 	}

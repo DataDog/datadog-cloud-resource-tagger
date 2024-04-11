@@ -10,6 +10,7 @@ import (
 	exec "os/exec"
 	"path/filepath"
 	"reflect"
+	"strconv"
 	"strings"
 	"sync"
 
@@ -69,7 +70,7 @@ func (r *Runner) Init(commands *clioptions.TagOptions) error {
 	r.ChangeAccumulator = reports.TagChangeAccumulatorInstance
 	r.reportingService = reports.ReportServiceInst
 	r.dir = commands.Directory
-	r.dryRun = commands.DryRun
+	r.dryRun, _ = strconv.ParseBool(commands.DryRun)
 
 	r.workersNum = 10
 	if utils.InSlice(r.skipDirs, r.dir) {

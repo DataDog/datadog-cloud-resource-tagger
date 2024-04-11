@@ -64,7 +64,7 @@ func tagCommand() *cli.Command {
 				Output:               c.String(outputArg),
 				OutputJSONFile:       c.String(outputJSONFileArg),
 				TagGroups:            c.StringSlice(tagGroupArg),
-				DryRun:               c.Bool(dryRunArgs),
+				DryRun:               c.String(dryRunArgs),
 				ChangedFiles:         c.StringSlice(changedFilesArg),
 				IncludeResourceTypes: c.StringSlice(includeResourceTypesArg),
 				IncludeProviders:     c.StringSlice(includeProvidersArg),
@@ -124,10 +124,10 @@ func tagCommand() *cli.Command {
 				Value:       cli.NewStringSlice(),
 				DefaultText: "aws,gcp",
 			},
-			&cli.BoolFlag{
+			&cli.StringFlag{
 				Name:        dryRunArgs,
 				Usage:       "skip persisting resource tagging",
-				Value:       false,
+				Value:       "false",
 				DefaultText: "false",
 			},
 		},
