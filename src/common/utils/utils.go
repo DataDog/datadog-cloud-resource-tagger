@@ -74,6 +74,9 @@ func FindSubMatchByGroup(r *regexp.Regexp, str string) map[string]string {
 func DetermineTopLevelDirectory(filepaths []string) string {
 	if len(filepaths) == 0 {
 		return "."
+	} else if len(filepaths) == 1 {
+		// If there is only one file, return the directory of that file
+		return strings.Join(strings.Split(filepaths[0], "/")[:len(strings.Split(filepaths[0], "/"))-1], "/")
 	}
 	topLevelDir := filepaths[0]
 	for _, fp := range filepaths {

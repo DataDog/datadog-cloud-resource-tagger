@@ -10,6 +10,7 @@ import (
 	exec "os/exec"
 	"path/filepath"
 	"reflect"
+	"strconv"
 	"strings"
 	"sync"
 
@@ -69,7 +70,7 @@ func (r *Runner) Init(commands *clioptions.TagOptions) error {
 	r.ChangeAccumulator = reports.TagChangeAccumulatorInstance
 	r.reportingService = reports.ReportServiceInst
 	r.dir = commands.Directory
-	r.dryRun = commands.DryRun
+	r.dryRun, _ = strconv.ParseBool(commands.DryRun)
 
 	r.workersNum = 10
 	if utils.InSlice(r.skipDirs, r.dir) {
@@ -121,10 +122,17 @@ func (r *Runner) TagChangedFiles() (*reports.ReportService, error) {
 		// if err != nil {
 		// 	logger.Error(fmt.Sprintf("Failed to commit changes to git for path \"%s\".Err: %s", r.dir, err))
 		// }
-		cmd := exec.Command("git", "-C", r.dir, "commit", "-m", "Adding tags from datadog-cloud-resource-tagger")
+		dir := utils.DetermineTopLevelDirectory(r.changedFiles)
+		cmd := exec.Command("git", "add", dir)
 		err := cmd.Run()
 		if err != nil {
-			logger.Error(fmt.Sprintf("Failed to commit changes to git for path \"%s\".Err: %s", r.dir, err))
+			logger.Error(fmt.Sprintf("Failed to add changes to git for path \"%s\".Err: %s", dir, err))
+		}
+
+		cmd = exec.Command("git", "commit", "-m", "Adding tags from datadog-cloud-resource-tagger")
+		err = cmd.Run()
+		if err != nil {
+			logger.Error(fmt.Sprintf("Failed to commit changes to git for path \"%s\".Err: %s", dir, err))
 		}
 		cmd = exec.Command("git", "push")
 		err = cmd.Run()

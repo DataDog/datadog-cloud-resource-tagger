@@ -26,7 +26,7 @@ type TagOptions struct {
 	Tag                  []string
 	SkipTags             []string
 	TagGroups            []string `validate:"tagGroupNames"`
-	DryRun               bool
+	DryRun               string
 	ChangedFiles         []string
 	IncludeResourceTypes []string
 	IncludeProviders     []string
