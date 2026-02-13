@@ -4,7 +4,7 @@
 // Copyright 2024-present Datadog, Inc.
 module github.com/Datadog/cloud-resource-tagger
 
-go 1.20
+go 1.25.7
 
 require (
 	github.com/go-git/go-git/v5 v5.11.0
