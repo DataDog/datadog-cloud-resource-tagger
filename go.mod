@@ -6,6 +6,8 @@ module github.com/Datadog/cloud-resource-tagger
 
 go 1.20
 
+toolchain go1.26.1
+
 require (
 	github.com/go-git/go-git/v5 v5.11.0
 	github.com/google/uuid v1.2.0
