@@ -4,24 +4,24 @@
 // Copyright 2024-present Datadog, Inc.
 module github.com/Datadog/cloud-resource-tagger
 
-go 1.20
+go 1.25
 
 require (
 	github.com/go-git/go-git/v5 v5.11.0
-	github.com/google/uuid v1.2.0
-	github.com/hashicorp/go-hclog v0.9.2
-	github.com/hashicorp/go-version v1.2.0
-	github.com/hashicorp/hcl/v2 v2.8.2
+	github.com/google/uuid v1.6.0
+	github.com/hashicorp/go-hclog v1.6.3
+	github.com/hashicorp/go-version v1.9.0
+	github.com/hashicorp/hcl/v2 v2.24.0
 	github.com/hashicorp/terraform v0.14.0
 	github.com/hashicorp/terraform-config-inspect v0.0.0-20211115214459-90acf1ca460f
 	github.com/likexian/gokit v0.20.15
-	github.com/minamijoyo/tfschema v0.6.0
-	github.com/mitchellh/cli v1.1.0
-	github.com/olekukonko/tablewriter v0.0.5
+	github.com/minamijoyo/tfschema v0.7.9
+	github.com/mitchellh/cli v1.1.5
+	github.com/olekukonko/tablewriter v1.1.4
 	github.com/pmezard/go-difflib v1.0.0
-	github.com/stretchr/testify v1.8.4
+	github.com/stretchr/testify v1.11.1
 	github.com/urfave/cli/v2 v2.3.0
-	github.com/zclconf/go-cty v1.7.0
+	github.com/zclconf/go-cty v1.18.0
 	gopkg.in/validator.v2 v2.0.0-20200605151824-2b28d334fa05
 )
 
@@ -48,7 +48,7 @@ require (
 	github.com/aliyun/aliyun-tablestore-go-sdk v4.1.2+incompatible // indirect
 	github.com/apparentlymart/go-cidr v1.0.1 // indirect
 	github.com/apparentlymart/go-textseg v1.0.0 // indirect
-	github.com/apparentlymart/go-textseg/v12 v12.0.0 // indirect
+	github.com/apparentlymart/go-textseg/v15 v15.0.0 // indirect
 	github.com/armon/circbuf v0.0.0-20190214190532-5111143e8da2 // indirect
 	github.com/armon/go-radix v1.0.0 // indirect
 	github.com/aws/aws-sdk-go v1.34.0 // indirect
@@ -67,7 +67,7 @@ require (
 	github.com/dimchansky/utfbom v1.1.0 // indirect
 	github.com/dylanmei/iso8601 v0.1.0 // indirect
 	github.com/emirpasic/gods v1.18.1 // indirect
-	github.com/fatih/color v1.7.0 // indirect
+	github.com/fatih/color v1.13.0 // indirect
 	github.com/go-git/gcfg v1.5.1-0.20230307220236-3a3c6141e376 // indirect
 	github.com/go-git/go-billy/v5 v5.5.0 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
@@ -110,15 +110,15 @@ require (
 	github.com/lusis/go-artifactory v0.0.0-20160115162124-7e4ce345df82 // indirect
 	github.com/masterzen/simplexml v0.0.0-20160608183007-4572e39b1ab9 // indirect
 	github.com/masterzen/winrm v0.0.0-20190223112901-5e5c9a7fe54b // indirect
-	github.com/mattn/go-colorable v0.1.1 // indirect
-	github.com/mattn/go-isatty v0.0.5 // indirect
+	github.com/mattn/go-colorable v0.1.12 // indirect
+	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/mattn/go-runewidth v0.0.9 // indirect
 	github.com/mitchellh/colorstring v0.0.0-20190213212951-d06e56a500db // indirect
 	github.com/mitchellh/copystructure v1.0.0 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/mitchellh/go-linereader v0.0.0-20190213213312-1b945b3263eb // indirect
 	github.com/mitchellh/go-testing-interface v1.0.0 // indirect
-	github.com/mitchellh/go-wordwrap v1.0.0 // indirect
+	github.com/mitchellh/go-wordwrap v1.0.1 // indirect
 	github.com/mitchellh/hashstructure v1.0.0 // indirect
 	github.com/mitchellh/mapstructure v1.1.2 // indirect
 	github.com/mitchellh/panicwrap v1.0.0 // indirect
@@ -145,20 +145,21 @@ require (
 	github.com/terraform-providers/terraform-provider-openstack v1.15.0 // indirect
 	github.com/ugorji/go v0.0.0-20180813092308-00b869d2f4a5 // indirect
 	github.com/ulikunitz/xz v0.5.8 // indirect
-	github.com/vmihailenco/msgpack/v4 v4.3.12 // indirect
-	github.com/vmihailenco/tagparser v0.1.1 // indirect
+	github.com/vmihailenco/msgpack/v5 v5.3.5 // indirect
+	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/xanzy/ssh-agent v0.3.3 // indirect
 	github.com/xlab/treeprint v0.0.0-20161029104018-1d6e34225557 // indirect
 	github.com/zclconf/go-cty-yaml v1.0.1 // indirect
 	go.opencensus.io v0.22.0 // indirect
-	golang.org/x/crypto v0.17.0 // indirect
-	golang.org/x/mod v0.12.0 // indirect
-	golang.org/x/net v0.19.0 // indirect
+	golang.org/x/crypto v0.38.0 // indirect
+	golang.org/x/mod v0.17.0 // indirect
+	golang.org/x/net v0.25.0 // indirect
 	golang.org/x/oauth2 v0.0.0-20190604053449-0f29369cfe45 // indirect
-	golang.org/x/sys v0.15.0 // indirect
-	golang.org/x/text v0.14.0 // indirect
+	golang.org/x/sync v0.14.0 // indirect
+	golang.org/x/sys v0.33.0 // indirect
+	golang.org/x/text v0.25.0 // indirect
 	golang.org/x/time v0.0.0-20190308202827-9d24e82272b4 // indirect
-	golang.org/x/tools v0.13.0 // indirect
+	golang.org/x/tools v0.21.1-0.20240508182429-e35e4ccd0d2d // indirect
 	google.golang.org/api v0.9.0 // indirect
 	google.golang.org/appengine v1.6.5 // indirect
 	google.golang.org/genproto v0.0.0-20190819201941-24fa4b261c55 // indirect
@@ -170,4 +171,4 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/hashicorp/terraform v0.14.0 => github.com/hashicorp/terraform v0.12.31
+replace github.com/hashicorp/terraform v0.14.0 => github.com/hashicorp/terraform v1.14.8
